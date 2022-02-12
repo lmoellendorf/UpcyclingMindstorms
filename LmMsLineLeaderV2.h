@@ -22,11 +22,23 @@ class MsLineLeaderV2
 		int GetFwVersion(char *version, size_t len);
 		int GetFwVendor(char *vendor, size_t len);
 		int GetFwDevice(char *device, size_t len);
+		int WriteCmd(char cmd);
+		int CalibrateWhite(void);
+		int CalibrateBlack(void);
+		int PutToSleep(void);
+		int WakeUp(void);
+		int InvertColor(void);
+		int ResetInversion(void);
+		int TakeSnapshot(void);
+		int CfgUs(void);
+		int CfgEu(void);
+		int CfgUniversal(void);
 		int GetAvg();
 
 	private:
 		int addr;
 		int I2cRead(int reg, char *val, size_t len);
+		int I2cWrite(int reg, char *val, size_t len);
 
 };
 

@@ -39,4 +39,8 @@ void loop()
 	Serial.println("average: ");
 	Serial.println(avg);
 	delay(250);
+	ll.PutToSleep();
+	delay(500);
+	ll.WakeUp();
+	delay(250);
 }

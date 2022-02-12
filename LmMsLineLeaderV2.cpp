@@ -20,6 +20,7 @@ enum registers {
 	MLLV2_FW_VERS = 0x00,
 	MLLV2_FW_VEND = 0x08,
 	MLLV2_FW_DEV  = 0x10,
+	MLLV2_CMD     = 0x41,
 	MLLV2_AVG     = 0x43,
 };
 
@@ -52,6 +53,22 @@ int MsLineLeaderV2::I2cRead(int reg, char *val, size_t len)
 	return 0;
 }
 
+int MsLineLeaderV2::I2cWrite(int reg, char *val, size_t len)
+{
+	if (!val || !len)
+		return -1;
+
+	/* set register pointer */
+	Wire.beginTransmission(byte(addr));
+	Wire.write(byte(reg));
+
+	for (int i = 0; i < len; i++)
+		Wire.write(val[i]);
+
+	Wire.endTransmission();
+	return 0;
+}
+
 int MsLineLeaderV2::GetFwVersion(char *version, size_t len)
 {
 	len = len > 9 ? 9 : len;
@@ -68,6 +85,61 @@ int MsLineLeaderV2::GetFwDevice(char *device, size_t len)
 {
 	len = len > 9 ? 9 : len;
 	return I2cRead(MLLV2_FW_DEV, device, len);
+}
+
+int MsLineLeaderV2::WriteCmd(char cmd)
+{
+	return I2cWrite(MLLV2_CMD, &cmd, 1);
+}
+
+int MsLineLeaderV2::CalibrateWhite(void)
+{
+	return WriteCmd('W');
+}
+
+int MsLineLeaderV2::CalibrateBlack(void)
+{
+	return WriteCmd('B');
+}
+
+int MsLineLeaderV2::PutToSleep(void)
+{
+	return WriteCmd('D');
+}
+
+int MsLineLeaderV2::WakeUp(void)
+{
+	return WriteCmd('P');
+}
+
+int MsLineLeaderV2::InvertColor(void)
+{
+	return WriteCmd('I');
+}
+
+int MsLineLeaderV2::ResetInversion(void)
+{
+	return WriteCmd('R');
+}
+
+int MsLineLeaderV2::TakeSnapshot(void)
+{
+	return WriteCmd('S');
+}
+
+int MsLineLeaderV2::CfgUs(void)
+{
+	return WriteCmd('A');
+}
+
+int MsLineLeaderV2::CfgEu(void)
+{
+	return WriteCmd('E');
+}
+
+int MsLineLeaderV2::CfgUniversal(void)
+{
+	return WriteCmd('U');
 }
 
 int MsLineLeaderV2::GetAvg()
