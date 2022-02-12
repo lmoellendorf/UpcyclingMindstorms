@@ -64,6 +64,12 @@ int MsLineLeaderV2::GetFwVendor(char *vendor, size_t len)
 	return I2cRead(MLLV2_FW_VEND, vendor, len);
 }
 
+int MsLineLeaderV2::GetFwDevice(char *device, size_t len)
+{
+	len = len > 9 ? 9 : len;
+	return I2cRead(MLLV2_FW_DEV, device, len);
+}
+
 int MsLineLeaderV2::GetAvg()
 {
 }

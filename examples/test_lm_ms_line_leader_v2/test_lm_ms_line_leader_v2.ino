@@ -9,22 +9,29 @@ void setup()
 
 void loop()
 {
-	char version[9] = {0};
-	char vendor[9] = {0};
+	char fw_str[9] = {0};
+	size_t len = sizeof(fw_str) / sizeof(fw_str[0]);
 	int ret;
 
-	ret = ll.GetFwVersion(version, sizeof(version) / sizeof(version[0]));
+	ret = ll.GetFwVersion(fw_str, len);
 
 	if (!ret) {
 		Serial.println("version: ");
-		Serial.println(version);
+		Serial.println(fw_str);
 	}
 
-	ret = ll.GetFwVendor(vendor, sizeof(vendor) / sizeof(vendor[0]));
+	ret = ll.GetFwVendor(fw_str, len);
 
 	if (!ret) {
 		Serial.println("vendor: ");
-		Serial.println(vendor);
+		Serial.println(fw_str);
+	}
+
+	ret = ll.GetFwDevice(fw_str, len);
+
+	if (!ret) {
+		Serial.println("device: ");
+		Serial.println(fw_str);
 	}
 
 	delay(250);

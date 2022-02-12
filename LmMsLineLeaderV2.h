@@ -21,6 +21,7 @@ class MsLineLeaderV2
 		MsLineLeaderV2(void);
 		int GetFwVersion(char *version, size_t len);
 		int GetFwVendor(char *vendor, size_t len);
+		int GetFwDevice(char *device, size_t len);
 		int GetAvg();
 
 	private:
