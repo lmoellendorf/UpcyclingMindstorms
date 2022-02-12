@@ -29,6 +29,7 @@ enum registers {
 	MLLV2_VOLTAGE = 0x74,
 	MLLV2_STEER   = 0x42,
 	MLLV2_AVG     = 0x43,
+	MLLV2_RESULT  = 0x44,
 };
 
 MsLineLeaderV2::MsLineLeaderV2(void)
@@ -230,4 +231,9 @@ int MsLineLeaderV2::GetAverage(void)
 int MsLineLeaderV2::GetSteering(void)
 {
 	return I2cReadByte(MLLV2_STEER);
+}
+
+int MsLineLeaderV2::GetResult(void)
+{
+	return I2cReadByte(MLLV2_RESULT);
 }

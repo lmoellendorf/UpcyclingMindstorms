@@ -45,6 +45,7 @@ class MsLineLeaderV2
 		int GetVoltage(int *readings, size_t len);
 		int GetSteering(void);
 		int GetAverage(void);
+		int GetResult(void);
 
 	private:
 		int addr;

@@ -81,6 +81,9 @@ void loop()
 	ret = ll.GetAverage();
 	Serial.println("average: ");
 	Serial.println(ret);
+	ret = ll.GetResult();
+	Serial.println("result: ");
+	Serial.println(ret);
 
 	delay(250);
 	ll.PutToSleep();
