@@ -33,54 +33,54 @@ void setup()
 
 void loop()
 {
-	int avg;
 	char readings[8];
 	size_t n_readings = sizeof(readings) / sizeof(readings[0]);
 	int voltage[8];
 	size_t n_voltage = sizeof(voltage) / sizeof(voltage[0]);
+	int ret;
 
-	avg = ll.GetCalibrated(readings, n_readings);
+	ret = ll.GetCalibrated(readings, n_readings);
 	Serial.println("calibrated: ");
 
 	for (int i = 0; i < n_readings; i++)
 		Serial.println((int)readings[i]);
 
-	avg = ll.GetWhiteLimit(readings, n_readings);
+	ret = ll.GetWhiteLimit(readings, n_readings);
 	Serial.println("white limit: ");
 
 	for (int i = 0; i < n_readings; i++)
 		Serial.println((int)readings[i]);
 
-	avg = ll.GetBlackLimit(readings, n_readings);
+	ret = ll.GetBlackLimit(readings, n_readings);
 	Serial.println("black limit: ");
 
 	for (int i = 0; i < n_readings; i++)
 		Serial.println((int)readings[i]);
 
-	avg = ll.GetWhiteCalibration(readings, n_readings);
+	ret = ll.GetWhiteCalibration(readings, n_readings);
 	Serial.println("white calibration: ");
 
 	for (int i = 0; i < n_readings; i++)
 		Serial.println((int)readings[i]);
 
-	avg = ll.GetBlackCalibration(readings, n_readings);
+	ret = ll.GetBlackCalibration(readings, n_readings);
 	Serial.println("black calibration: ");
 
 	for (int i = 0; i < n_readings; i++)
 		Serial.println((int)readings[i]);
 
-	avg = ll.GetVoltage(voltage, n_voltage);
+	ret = ll.GetVoltage(voltage, n_voltage);
 	Serial.println("voltage: ");
 
 	for (int i = 0; i < n_voltage; i++)
 		Serial.println((int)voltage[i]);
 
-	avg = ll.GetSteering();
+	ret = ll.GetSteering();
 	Serial.println("steering: ");
-	Serial.println(avg);
-	avg = ll.GetAverage();
+	Serial.println(ret);
+	ret = ll.GetAverage();
 	Serial.println("average: ");
-	Serial.println(avg);
+	Serial.println(ret);
 
 	delay(250);
 	ll.PutToSleep();
