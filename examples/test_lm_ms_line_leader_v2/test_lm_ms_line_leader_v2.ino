@@ -36,6 +36,8 @@ void loop()
 	int avg;
 	char readings[8];
 	size_t n_readings = sizeof(readings) / sizeof(readings[0]);
+	int voltage[8];
+	size_t n_voltage = sizeof(voltage) / sizeof(voltage[0]);
 
 	avg = ll.GetCalibrated(readings, n_readings);
 	Serial.println("calibrated: ");
@@ -66,6 +68,12 @@ void loop()
 
 	for (int i = 0; i < n_readings; i++)
 		Serial.println((int)readings[i]);
+
+	avg = ll.GetVoltage(voltage, n_voltage);
+	Serial.println("voltage: ");
+
+	for (int i = 0; i < n_voltage; i++)
+		Serial.println((int)voltage[i]);
 
 	avg = ll.GetAvg();
 	Serial.println("average: ");

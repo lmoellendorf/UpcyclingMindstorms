@@ -26,6 +26,7 @@ enum registers {
 	MLLV2_B_LIMIT = 0x59,
 	MLLV2_W_CALIB = 0x64,
 	MLLV2_B_CALIB = 0x6C,
+	MLLV2_VOLTAGE = 0x74,
 	MLLV2_AVG     = 0x43,
 };
 
@@ -183,6 +184,27 @@ int MsLineLeaderV2::GetBlackCalibration(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
 	return I2cRead(MLLV2_B_CALIB, values, len);
+}
+
+int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
+{
+	int swap, ret;
+
+	len = len > 8 ? 8 : len;
+	ret = I2cRead(MLLV2_VOLTAGE, (char *)readings, len * 2);
+
+	if (ret < 0)
+		return ret;
+
+
+	/*
+	 * swap byte - it is assumed that int is 16bit
+	 */
+	for (int i = 0; i < len; i++) {
+		swap        = readings[i];
+		readings[i] = readings[i] >> 8;
+		readings[i] |= swap << 8;
+	}
 }
 
 int MsLineLeaderV2::GetAvg()
