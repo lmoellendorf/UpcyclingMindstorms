@@ -41,16 +41,24 @@ int MsLineLeaderV2::I2cRead(int reg, char *val, size_t len)
 	Wire.endTransmission();
 
 	/* request bytes */
-	Wire.requestFrom(addr, len - 1);
+	Wire.requestFrom(addr, len);
 
 	/*  receive reading from sensor */
-	if (len - 1 <= Wire.available())  {
-		for (int i = 0; i < len - 1; i++)
+	if (len <= Wire.available())  {
+		for (int i = 0; i < len; i++)
 			val[i] = Wire.read();
 	}
 
-	val[len - 1] = 0;
 	return 0;
+}
+
+int MsLineLeaderV2::I2cReadStr(int reg, char *val, size_t len)
+{
+	if (!val || !len)
+		return -1;
+
+	val[len - 1] = '\0';
+	return I2cRead(reg, val, len - 1);
 }
 
 int MsLineLeaderV2::I2cWrite(int reg, char *val, size_t len)
@@ -72,19 +80,19 @@ int MsLineLeaderV2::I2cWrite(int reg, char *val, size_t len)
 int MsLineLeaderV2::GetFwVersion(char *version, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return I2cRead(MLLV2_FW_VERS, version, len);
+	return I2cReadStr(MLLV2_FW_VERS, version, len);
 }
 
 int MsLineLeaderV2::GetFwVendor(char *vendor, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return I2cRead(MLLV2_FW_VEND, vendor, len);
+	return I2cReadStr(MLLV2_FW_VEND, vendor, len);
 }
 
 int MsLineLeaderV2::GetFwDevice(char *device, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return I2cRead(MLLV2_FW_DEV, device, len);
+	return I2cReadStr(MLLV2_FW_DEV, device, len);
 }
 
 int MsLineLeaderV2::WriteCmd(char cmd)
@@ -144,7 +152,7 @@ int MsLineLeaderV2::CfgUniversal(void)
 
 int MsLineLeaderV2::GetAvg()
 {
-	char val[2];
+	char val[1];
 	size_t len = sizeof(val) / sizeof(val[0]);
 	int avg, ret;
 

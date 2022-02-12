@@ -38,6 +38,7 @@ class MsLineLeaderV2
 	private:
 		int addr;
 		int I2cRead(int reg, char *val, size_t len);
+		int I2cReadStr(int reg, char *val, size_t len);
 		int I2cWrite(int reg, char *val, size_t len);
 
 };
