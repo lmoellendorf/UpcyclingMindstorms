@@ -4,15 +4,11 @@ MsLineLeaderV2 ll = MsLineLeaderV2();
 
 void setup()
 {
-	Serial.begin(115200);
-}
-
-void loop()
-{
 	char fw_str[9] = {0};
 	size_t len = sizeof(fw_str) / sizeof(fw_str[0]);
 	int ret;
 
+	Serial.begin(115200);
 	ret = ll.GetFwVersion(fw_str, len);
 
 	if (!ret) {
@@ -33,6 +29,14 @@ void loop()
 		Serial.println("device: ");
 		Serial.println(fw_str);
 	}
+}
 
+void loop()
+{
+	int avg;
+
+	avg = ll.GetAvg();
+	Serial.println("average: ");
+	Serial.println(avg);
 	delay(250);
 }

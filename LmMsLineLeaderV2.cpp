@@ -72,4 +72,15 @@ int MsLineLeaderV2::GetFwDevice(char *device, size_t len)
 
 int MsLineLeaderV2::GetAvg()
 {
+	char val[2];
+	size_t len = sizeof(val) / sizeof(val[0]);
+	int avg, ret;
+
+	ret = I2cRead(MLLV2_AVG, val, len);
+
+	if (ret < 0)
+		return ret;
+
+	avg = val[0];
+	return avg;
 }
