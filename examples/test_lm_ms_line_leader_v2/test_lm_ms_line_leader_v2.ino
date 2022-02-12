@@ -75,6 +75,9 @@ void loop()
 	for (int i = 0; i < n_voltage; i++)
 		Serial.println((int)voltage[i]);
 
+	avg = ll.GetSteering();
+	Serial.println("steering: ");
+	Serial.println(avg);
 	avg = ll.GetAvg();
 	Serial.println("average: ");
 	Serial.println(avg);

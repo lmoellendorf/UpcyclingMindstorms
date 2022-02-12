@@ -42,6 +42,7 @@ class MsLineLeaderV2
 		int GetWhiteCalibration(char *values, size_t len);
 		int GetBlackCalibration(char *values, size_t len);
 		int GetVoltage(int *readings, size_t len);
+		int GetSteering(void);
 		int GetAvg();
 
 	private:

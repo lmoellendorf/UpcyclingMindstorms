@@ -27,6 +27,7 @@ enum registers {
 	MLLV2_W_CALIB = 0x64,
 	MLLV2_B_CALIB = 0x6C,
 	MLLV2_VOLTAGE = 0x74,
+	MLLV2_STEER   = 0x42,
 	MLLV2_AVG     = 0x43,
 };
 
@@ -214,6 +215,21 @@ int MsLineLeaderV2::GetAvg()
 	int avg, ret;
 
 	ret = I2cRead(MLLV2_AVG, val, len);
+
+	if (ret < 0)
+		return ret;
+
+	avg = val[0];
+	return avg;
+}
+
+int MsLineLeaderV2::GetSteering(void)
+{
+	char val[1];
+	size_t len = sizeof(val) / sizeof(val[0]);
+	int avg, ret;
+
+	ret = I2cRead(MLLV2_STEER, val, len);
 
 	if (ret < 0)
 		return ret;
