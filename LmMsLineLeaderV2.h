@@ -36,6 +36,11 @@ class MsLineLeaderV2
 		int CfgUs(void);
 		int CfgEu(void);
 		int CfgUniversal(void);
+		int GetCalibrated(char *readings, size_t len);
+		int GetWhiteLimit(char *values, size_t len);
+		int GetBlackLimit(char *values, size_t len);
+		int GetWhiteCalibration(char *values, size_t len);
+		int GetBlackCalibration(char *values, size_t len);
 		int GetAvg();
 
 	private:

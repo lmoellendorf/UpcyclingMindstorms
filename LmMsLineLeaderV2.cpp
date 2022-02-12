@@ -21,6 +21,11 @@ enum registers {
 	MLLV2_FW_VEND = 0x08,
 	MLLV2_FW_DEV  = 0x10,
 	MLLV2_CMD     = 0x41,
+	MLLV2_CALIB   = 0x49,
+	MLLV2_W_LIMIT = 0x51,
+	MLLV2_B_LIMIT = 0x59,
+	MLLV2_W_CALIB = 0x64,
+	MLLV2_B_CALIB = 0x6C,
 	MLLV2_AVG     = 0x43,
 };
 
@@ -148,6 +153,36 @@ int MsLineLeaderV2::CfgEu(void)
 int MsLineLeaderV2::CfgUniversal(void)
 {
 	return WriteCmd('U');
+}
+
+int MsLineLeaderV2::GetCalibrated(char *readings, size_t len)
+{
+	len = len > 8 ? 8 : len;
+	return I2cRead(MLLV2_CALIB, readings, len);
+}
+
+int MsLineLeaderV2::GetWhiteLimit(char *values, size_t len)
+{
+	len = len > 8 ? 8 : len;
+	return I2cRead(MLLV2_W_LIMIT, values, len);
+}
+
+int MsLineLeaderV2::GetBlackLimit(char *values, size_t len)
+{
+	len = len > 8 ? 8 : len;
+	return I2cRead(MLLV2_B_LIMIT, values, len);
+}
+
+int MsLineLeaderV2::GetWhiteCalibration(char *values, size_t len)
+{
+	len = len > 8 ? 8 : len;
+	return I2cRead(MLLV2_W_CALIB, values, len);
+}
+
+int MsLineLeaderV2::GetBlackCalibration(char *values, size_t len)
+{
+	len = len > 8 ? 8 : len;
+	return I2cRead(MLLV2_B_CALIB, values, len);
 }
 
 int MsLineLeaderV2::GetAvg()

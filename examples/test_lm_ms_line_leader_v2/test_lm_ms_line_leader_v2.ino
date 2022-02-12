@@ -34,10 +34,43 @@ void setup()
 void loop()
 {
 	int avg;
+	char readings[8];
+	size_t n_readings = sizeof(readings) / sizeof(readings[0]);
+
+	avg = ll.GetCalibrated(readings, n_readings);
+	Serial.println("calibrated: ");
+
+	for (int i = 0; i < n_readings; i++)
+		Serial.println((int)readings[i]);
+
+	avg = ll.GetWhiteLimit(readings, n_readings);
+	Serial.println("white limit: ");
+
+	for (int i = 0; i < n_readings; i++)
+		Serial.println((int)readings[i]);
+
+	avg = ll.GetBlackLimit(readings, n_readings);
+	Serial.println("black limit: ");
+
+	for (int i = 0; i < n_readings; i++)
+		Serial.println((int)readings[i]);
+
+	avg = ll.GetWhiteCalibration(readings, n_readings);
+	Serial.println("white calibration: ");
+
+	for (int i = 0; i < n_readings; i++)
+		Serial.println((int)readings[i]);
+
+	avg = ll.GetBlackCalibration(readings, n_readings);
+	Serial.println("black calibration: ");
+
+	for (int i = 0; i < n_readings; i++)
+		Serial.println((int)readings[i]);
 
 	avg = ll.GetAvg();
 	Serial.println("average: ");
 	Serial.println(avg);
+
 	delay(250);
 	ll.PutToSleep();
 	delay(500);
