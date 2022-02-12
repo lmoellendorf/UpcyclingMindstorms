@@ -78,7 +78,7 @@ void loop()
 	avg = ll.GetSteering();
 	Serial.println("steering: ");
 	Serial.println(avg);
-	avg = ll.GetAvg();
+	avg = ll.GetAverage();
 	Serial.println("average: ");
 	Serial.println(avg);
 

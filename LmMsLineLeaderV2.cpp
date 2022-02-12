@@ -208,7 +208,7 @@ int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
 	}
 }
 
-int MsLineLeaderV2::GetAvg()
+int MsLineLeaderV2::GetAverage(void)
 {
 	char val[1];
 	size_t len = sizeof(val) / sizeof(val[0]);
