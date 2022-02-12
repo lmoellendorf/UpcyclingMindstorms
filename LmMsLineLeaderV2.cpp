@@ -30,6 +30,13 @@ enum registers {
 	MLLV2_STEER   = 0x42,
 	MLLV2_AVG     = 0x43,
 	MLLV2_RESULT  = 0x44,
+	MLLV2_SETPT   = 0x45,
+	MLLV2_KP      = 0x46,
+	MLLV2_KI      = 0x47,
+	MLLV2_KD      = 0x48,
+	MLLV2_KP_DIV  = 0x61,
+	MLLV2_KI_DIV  = 0x62,
+	MLLV2_KD_DIV  = 0x63,
 };
 
 MsLineLeaderV2::MsLineLeaderV2(void)
@@ -236,4 +243,39 @@ int MsLineLeaderV2::GetSteering(void)
 int MsLineLeaderV2::GetResult(void)
 {
 	return I2cReadByte(MLLV2_RESULT);
+}
+
+int MsLineLeaderV2::GetSetpoint(void)
+{
+	return I2cReadByte(MLLV2_SETPT);
+}
+
+int MsLineLeaderV2::GetKp(void)
+{
+	return I2cReadByte(MLLV2_KP);
+}
+
+int MsLineLeaderV2::GetKi(void)
+{
+	return I2cReadByte(MLLV2_KI);
+}
+
+int MsLineLeaderV2::GetKd(void)
+{
+	return I2cReadByte(MLLV2_KD);
+}
+
+int MsLineLeaderV2::GetKpDiv(void)
+{
+	return I2cReadByte(MLLV2_KP_DIV);
+}
+
+int MsLineLeaderV2::GetKiDiv(void)
+{
+	return I2cReadByte(MLLV2_KI_DIV);
+}
+
+int MsLineLeaderV2::GetKdDiv(void)
+{
+	return I2cReadByte(MLLV2_KD_DIV);
 }

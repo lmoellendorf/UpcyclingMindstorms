@@ -46,6 +46,13 @@ class MsLineLeaderV2
 		int GetSteering(void);
 		int GetAverage(void);
 		int GetResult(void);
+		int GetSetpoint(void);
+		int GetKp(void);
+		int GetKi(void);
+		int GetKd(void);
+		int GetKpDiv(void);
+		int GetKiDiv(void);
+		int GetKdDiv(void);
 
 	private:
 		int addr;
