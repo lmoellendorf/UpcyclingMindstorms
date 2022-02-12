@@ -21,6 +21,7 @@ class MsLineLeaderV2
 		MsLineLeaderV2(void);
 		int I2cRead(int reg, char *val, size_t len);
 		int I2cReadStr(int reg, char *val, size_t len);
+		int I2cReadByte(int reg);
 		int I2cWrite(int reg, char *val, size_t len);
 		int GetFwVersion(char *version, size_t len);
 		int GetFwVendor(char *vendor, size_t len);

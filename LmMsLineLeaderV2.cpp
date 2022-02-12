@@ -68,6 +68,20 @@ int MsLineLeaderV2::I2cReadStr(int reg, char *val, size_t len)
 	return I2cRead(reg, val, len - 1);
 }
 
+int MsLineLeaderV2::I2cReadByte(int reg)
+{
+	char val[1];
+	size_t len = sizeof(val) / sizeof(val[0]);
+	int ret;
+
+	ret = I2cRead(reg, val, len);
+
+	if (ret < 0)
+		return ret;
+
+	return val[0];
+}
+
 int MsLineLeaderV2::I2cWrite(int reg, char *val, size_t len)
 {
 	if (!val || !len)
@@ -210,30 +224,10 @@ int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
 
 int MsLineLeaderV2::GetAverage(void)
 {
-	char val[1];
-	size_t len = sizeof(val) / sizeof(val[0]);
-	int avg, ret;
-
-	ret = I2cRead(MLLV2_AVG, val, len);
-
-	if (ret < 0)
-		return ret;
-
-	avg = val[0];
-	return avg;
+	return I2cReadByte(MLLV2_AVG);
 }
 
 int MsLineLeaderV2::GetSteering(void)
 {
-	char val[1];
-	size_t len = sizeof(val) / sizeof(val[0]);
-	int avg, ret;
-
-	ret = I2cRead(MLLV2_STEER, val, len);
-
-	if (ret < 0)
-		return ret;
-
-	avg = val[0];
-	return avg;
+	return I2cReadByte(MLLV2_STEER);
 }
