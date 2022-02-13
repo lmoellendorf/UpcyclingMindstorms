@@ -250,9 +250,19 @@ int MsLineLeaderV2::GetSetpoint(void)
 	return I2cReadByte(MLLV2_SETPT);
 }
 
+int MsLineLeaderV2::SetSetpoint(char setpoint)
+{
+	return I2cWrite(MLLV2_SETPT, &setpoint, 1);
+}
+
 int MsLineLeaderV2::GetKp(void)
 {
 	return I2cReadByte(MLLV2_KP);
+}
+
+int MsLineLeaderV2::SetKp(char k_p)
+{
+	return I2cWrite(MLLV2_KP, k_p, 1);
 }
 
 int MsLineLeaderV2::GetKi(void)
@@ -260,9 +270,19 @@ int MsLineLeaderV2::GetKi(void)
 	return I2cReadByte(MLLV2_KI);
 }
 
+int MsLineLeaderV2::SetKi(char k_i)
+{
+	return I2cWrite(MLLV2_KI, k_i, 1);
+}
+
 int MsLineLeaderV2::GetKd(void)
 {
 	return I2cReadByte(MLLV2_KD);
+}
+
+int MsLineLeaderV2::SetKd(char k_d)
+{
+	return I2cWrite(MLLV2_KD, k_d, 1);
 }
 
 int MsLineLeaderV2::GetKpDiv(void)
@@ -270,12 +290,27 @@ int MsLineLeaderV2::GetKpDiv(void)
 	return I2cReadByte(MLLV2_KP_DIV);
 }
 
+int MsLineLeaderV2::SetKpDiv(char k_p_div)
+{
+	return I2cWrite(MLLV2_KP_DIV, k_p_div, 1);
+}
+
 int MsLineLeaderV2::GetKiDiv(void)
 {
 	return I2cReadByte(MLLV2_KI_DIV);
 }
 
+int MsLineLeaderV2::SetKiDiv(char k_i_div)
+{
+	return I2cWrite(MLLV2_KI_DIV, k_i_div, 1);
+}
+
 int MsLineLeaderV2::GetKdDiv(void)
 {
 	return I2cReadByte(MLLV2_KD_DIV);
+}
+
+int MsLineLeaderV2::SetKdDiv(char k_d_div)
+{
+	return I2cWrite(MLLV2_KD_DIV, k_d_div, 1);
 }

@@ -47,12 +47,19 @@ class MsLineLeaderV2
 		int GetAverage(void);
 		int GetResult(void);
 		int GetSetpoint(void);
+		int SetSetpoint(char setpoint);
 		int GetKp(void);
+		int SetKp(char k_p);
 		int GetKi(void);
+		int SetKi(char k_i);
 		int GetKd(void);
+		int SetKd(char k_d);
 		int GetKpDiv(void);
+		int SetKpDiv(char k_p_div);
 		int GetKiDiv(void);
+		int SetKiDiv(char k_i_div);
 		int GetKdDiv(void);
+		int SetKdDiv(char k_d_div);
 
 	private:
 		int addr;
