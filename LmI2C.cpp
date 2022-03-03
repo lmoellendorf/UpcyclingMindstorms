@@ -12,7 +12,6 @@
 #include <Arduino.h>
 #include <string.h>
 
-
 enum defaults {
 	I2C_ADDR = 0x1,
 };
@@ -23,10 +22,14 @@ enum registers {
 	I2C_REG_DEV  = 0x10,
 };
 
-I2C::I2C(void)
+I2C::I2C(int addr)
 {
-	addr = I2C_ADDR;
+	I2C::addr = addr;
 	Wire.begin();
+}
+
+I2C::I2C(void) : I2C(I2C_ADDR)
+{
 }
 
 int I2C::GetVersion(char *version, size_t len)

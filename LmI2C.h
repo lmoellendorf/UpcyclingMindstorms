@@ -18,6 +18,7 @@ class I2C
 {
 
 	public:
+		I2C(int addr);
 		I2C(void);
 		int Read(int reg, char *val, size_t len);
 		int ReadStr(int reg, char *val, size_t len);
