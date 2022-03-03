@@ -8,13 +8,9 @@
  */
 
 #include "LmMsLineLeaderV2.h"
-#include <Wire.h>
 #include <Arduino.h>
+#include <string.h>
 
-
-enum defaults {
-	MLLV2_ADDR = 0x1,
-};
 
 enum registers {
 	MLLV2_FW_VERS = 0x00,
@@ -39,94 +35,34 @@ enum registers {
 	MLLV2_KD_DIV  = 0x63,
 };
 
+static const char cmd_addr[] = {0xA0, 0xAA, 0xA5, 0};
+static const size_t n_cmd_addr = sizeof(cmd_addr) / sizeof(cmd_addr[0]);
+
 MsLineLeaderV2::MsLineLeaderV2(void)
 {
-	addr = MLLV2_ADDR;
-	Wire.begin();
-}
-
-int MsLineLeaderV2::I2cRead(int reg, char *val, size_t len)
-{
-	if (!val || !len)
-		return -1;
-
-	/* set register pointer */
-	Wire.beginTransmission(byte(addr));
-	Wire.write(byte(reg));
-	Wire.endTransmission();
-
-	/* request bytes */
-	Wire.requestFrom(addr, len);
-
-	/*  receive reading from sensor */
-	if (len <= Wire.available())  {
-		for (int i = 0; i < len; i++)
-			val[i] = Wire.read();
-	}
-
-	return 0;
-}
-
-int MsLineLeaderV2::I2cReadStr(int reg, char *val, size_t len)
-{
-	if (!val || !len)
-		return -1;
-
-	val[len - 1] = '\0';
-	return I2cRead(reg, val, len - 1);
-}
-
-int MsLineLeaderV2::I2cReadByte(int reg)
-{
-	char val[1];
-	size_t len = sizeof(val) / sizeof(val[0]);
-	int ret;
-
-	ret = I2cRead(reg, val, len);
-
-	if (ret < 0)
-		return ret;
-
-	return val[0];
-}
-
-int MsLineLeaderV2::I2cWrite(int reg, char *val, size_t len)
-{
-	if (!val || !len)
-		return -1;
-
-	/* set register pointer */
-	Wire.beginTransmission(byte(addr));
-	Wire.write(byte(reg));
-
-	for (int i = 0; i < len; i++)
-		Wire.write(val[i]);
-
-	Wire.endTransmission();
-	return 0;
 }
 
 int MsLineLeaderV2::GetFwVersion(char *version, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return I2cReadStr(MLLV2_FW_VERS, version, len);
+	return i2c.ReadStr(MLLV2_FW_VERS, version, len);
 }
 
 int MsLineLeaderV2::GetFwVendor(char *vendor, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return I2cReadStr(MLLV2_FW_VEND, vendor, len);
+	return i2c.ReadStr(MLLV2_FW_VEND, vendor, len);
 }
 
 int MsLineLeaderV2::GetFwDevice(char *device, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return I2cReadStr(MLLV2_FW_DEV, device, len);
+	return i2c.ReadStr(MLLV2_FW_DEV, device, len);
 }
 
 int MsLineLeaderV2::WriteCmd(char cmd)
 {
-	return I2cWrite(MLLV2_CMD, &cmd, 1);
+	return i2c.Write(MLLV2_CMD, &cmd, 1);
 }
 
 int MsLineLeaderV2::CalibrateWhite(void)
@@ -182,31 +118,31 @@ int MsLineLeaderV2::CfgUniversal(void)
 int MsLineLeaderV2::GetCalibrated(char *readings, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return I2cRead(MLLV2_CALIB, readings, len);
+	return i2c.Read(MLLV2_CALIB, readings, len);
 }
 
 int MsLineLeaderV2::GetWhiteLimit(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return I2cRead(MLLV2_W_LIMIT, values, len);
+	return i2c.Read(MLLV2_W_LIMIT, values, len);
 }
 
 int MsLineLeaderV2::GetBlackLimit(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return I2cRead(MLLV2_B_LIMIT, values, len);
+	return i2c.Read(MLLV2_B_LIMIT, values, len);
 }
 
 int MsLineLeaderV2::GetWhiteCalibration(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return I2cRead(MLLV2_W_CALIB, values, len);
+	return i2c.Read(MLLV2_W_CALIB, values, len);
 }
 
 int MsLineLeaderV2::GetBlackCalibration(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return I2cRead(MLLV2_B_CALIB, values, len);
+	return i2c.Read(MLLV2_B_CALIB, values, len);
 }
 
 int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
@@ -214,7 +150,7 @@ int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
 	int swap, ret;
 
 	len = len > 8 ? 8 : len;
-	ret = I2cRead(MLLV2_VOLTAGE, (char *)readings, len * 2);
+	ret = i2c.Read(MLLV2_VOLTAGE, (char *)readings, len * 2);
 
 	if (ret < 0)
 		return ret;
@@ -232,85 +168,85 @@ int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
 
 int MsLineLeaderV2::GetAverage(void)
 {
-	return I2cReadByte(MLLV2_AVG);
+	return i2c.ReadByte(MLLV2_AVG);
 }
 
 int MsLineLeaderV2::GetSteering(void)
 {
-	return I2cReadByte(MLLV2_STEER);
+	return i2c.ReadByte(MLLV2_STEER);
 }
 
 int MsLineLeaderV2::GetResult(void)
 {
-	return I2cReadByte(MLLV2_RESULT);
+	return i2c.ReadByte(MLLV2_RESULT);
 }
 
 int MsLineLeaderV2::GetSetpoint(void)
 {
-	return I2cReadByte(MLLV2_SETPT);
+	return i2c.ReadByte(MLLV2_SETPT);
 }
 
 int MsLineLeaderV2::SetSetpoint(char setpoint)
 {
-	return I2cWrite(MLLV2_SETPT, &setpoint, 1);
+	return i2c.Write(MLLV2_SETPT, &setpoint, 1);
 }
 
 int MsLineLeaderV2::GetKp(void)
 {
-	return I2cReadByte(MLLV2_KP);
+	return i2c.ReadByte(MLLV2_KP);
 }
 
 int MsLineLeaderV2::SetKp(char k_p)
 {
-	return I2cWrite(MLLV2_KP, k_p, 1);
+	return i2c.Write(MLLV2_KP, k_p, 1);
 }
 
 int MsLineLeaderV2::GetKi(void)
 {
-	return I2cReadByte(MLLV2_KI);
+	return i2c.ReadByte(MLLV2_KI);
 }
 
 int MsLineLeaderV2::SetKi(char k_i)
 {
-	return I2cWrite(MLLV2_KI, k_i, 1);
+	return i2c.Write(MLLV2_KI, k_i, 1);
 }
 
 int MsLineLeaderV2::GetKd(void)
 {
-	return I2cReadByte(MLLV2_KD);
+	return i2c.ReadByte(MLLV2_KD);
 }
 
 int MsLineLeaderV2::SetKd(char k_d)
 {
-	return I2cWrite(MLLV2_KD, k_d, 1);
+	return i2c.Write(MLLV2_KD, k_d, 1);
 }
 
 int MsLineLeaderV2::GetKpDiv(void)
 {
-	return I2cReadByte(MLLV2_KP_DIV);
+	return i2c.ReadByte(MLLV2_KP_DIV);
 }
 
 int MsLineLeaderV2::SetKpDiv(char k_p_div)
 {
-	return I2cWrite(MLLV2_KP_DIV, k_p_div, 1);
+	return i2c.Write(MLLV2_KP_DIV, k_p_div, 1);
 }
 
 int MsLineLeaderV2::GetKiDiv(void)
 {
-	return I2cReadByte(MLLV2_KI_DIV);
+	return i2c.ReadByte(MLLV2_KI_DIV);
 }
 
 int MsLineLeaderV2::SetKiDiv(char k_i_div)
 {
-	return I2cWrite(MLLV2_KI_DIV, k_i_div, 1);
+	return i2c.Write(MLLV2_KI_DIV, k_i_div, 1);
 }
 
 int MsLineLeaderV2::GetKdDiv(void)
 {
-	return I2cReadByte(MLLV2_KD_DIV);
+	return i2c.ReadByte(MLLV2_KD_DIV);
 }
 
 int MsLineLeaderV2::SetKdDiv(char k_d_div)
 {
-	return I2cWrite(MLLV2_KD_DIV, k_d_div, 1);
+	return i2c.Write(MLLV2_KD_DIV, k_d_div, 1);
 }

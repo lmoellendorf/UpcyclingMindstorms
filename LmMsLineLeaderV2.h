@@ -12,6 +12,7 @@
 #define LM_MS_LINE_LEADER_V2_
 //! @endcond
 
+#include "LmI2C.h"
 #include <stddef.h>
 
 class MsLineLeaderV2
@@ -19,10 +20,6 @@ class MsLineLeaderV2
 
 	public:
 		MsLineLeaderV2(void);
-		int I2cRead(int reg, char *val, size_t len);
-		int I2cReadStr(int reg, char *val, size_t len);
-		int I2cReadByte(int reg);
-		int I2cWrite(int reg, char *val, size_t len);
 		int GetFwVersion(char *version, size_t len);
 		int GetFwVendor(char *vendor, size_t len);
 		int GetFwDevice(char *device, size_t len);
@@ -62,7 +59,7 @@ class MsLineLeaderV2
 		int SetKdDiv(char k_d_div);
 
 	private:
-		int addr;
+		I2C i2c;
 
 };
 
