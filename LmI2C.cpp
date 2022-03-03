@@ -17,10 +17,34 @@ enum defaults {
 	I2C_ADDR = 0x1,
 };
 
+enum registers {
+	I2C_REG_VERS = 0x00,
+	I2C_REG_VEND = 0x08,
+	I2C_REG_DEV  = 0x10,
+};
+
 I2C::I2C(void)
 {
 	addr = I2C_ADDR;
 	Wire.begin();
+}
+
+int I2C::GetVersion(char *version, size_t len)
+{
+	len = len > 9 ? 9 : len;
+	return ReadStr(I2C_REG_VERS, version, len);
+}
+
+int I2C::GetVendorId(char *vendor, size_t len)
+{
+	len = len > 9 ? 9 : len;
+	return ReadStr(I2C_REG_VEND, vendor, len);
+}
+
+int I2C::GetDeviceId(char *device, size_t len)
+{
+	len = len > 9 ? 9 : len;
+	return ReadStr(I2C_REG_DEV, device, len);
 }
 
 int I2C::Read(int reg, char *val, size_t len)
