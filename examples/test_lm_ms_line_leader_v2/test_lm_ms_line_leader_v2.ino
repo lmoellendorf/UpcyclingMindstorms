@@ -9,21 +9,21 @@ void setup()
 	int ret;
 
 	Serial.begin(115200);
-	ret = ll.GetFwVersion(fw_str, len);
+	ret = ll.GetVersion(fw_str, len);
 
 	if (!ret) {
 		Serial.println("version: ");
 		Serial.println(fw_str);
 	}
 
-	ret = ll.GetFwVendor(fw_str, len);
+	ret = ll.GetVendorId(fw_str, len);
 
 	if (!ret) {
 		Serial.println("vendor: ");
 		Serial.println(fw_str);
 	}
 
-	ret = ll.GetFwDevice(fw_str, len);
+	ret = ll.GetDeviceId(fw_str, len);
 
 	if (!ret) {
 		Serial.println("device: ");

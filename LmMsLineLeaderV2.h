@@ -20,9 +20,9 @@ class MsLineLeaderV2
 
 	public:
 		MsLineLeaderV2(void);
-		int GetFwVersion(char *version, size_t len);
-		int GetFwVendor(char *vendor, size_t len);
-		int GetFwDevice(char *device, size_t len);
+		int GetVersion(char *version, size_t len);
+		int GetVendorId(char *vendor, size_t len);
+		int GetDeviceId(char *device, size_t len);
 		int WriteCmd(char cmd);
 		int CalibrateWhite(void);
 		int CalibrateBlack(void);

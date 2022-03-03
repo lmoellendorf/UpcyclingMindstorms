@@ -42,19 +42,19 @@ MsLineLeaderV2::MsLineLeaderV2(void)
 {
 }
 
-int MsLineLeaderV2::GetFwVersion(char *version, size_t len)
+int MsLineLeaderV2::GetVersion(char *version, size_t len)
 {
 	len = len > 9 ? 9 : len;
 	return i2c.ReadStr(MLLV2_FW_VERS, version, len);
 }
 
-int MsLineLeaderV2::GetFwVendor(char *vendor, size_t len)
+int MsLineLeaderV2::GetVendorId(char *vendor, size_t len)
 {
 	len = len > 9 ? 9 : len;
 	return i2c.ReadStr(MLLV2_FW_VEND, vendor, len);
 }
 
-int MsLineLeaderV2::GetFwDevice(char *device, size_t len)
+int MsLineLeaderV2::GetDeviceId(char *device, size_t len)
 {
 	len = len > 9 ? 9 : len;
 	return i2c.ReadStr(MLLV2_FW_DEV, device, len);
