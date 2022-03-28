@@ -1,13 +1,14 @@
 #include <LmHtIrSeekerV2.h>
 
+HtIrSeekerV2 seeker;
 
 void setup()
 {
-	HtIrSeekerV2 seeker = HtIrSeekerV2();
 	char fw_str[9] = {0};
 	size_t len = sizeof(fw_str) / sizeof(fw_str[0]);
 	int ret;
 
+	seeker = HtIrSeekerV2(HtIrSeekerV2::Mode::AC);
 	Serial.begin(115200);
 	ret = seeker.GetVersion(fw_str, len);
 
@@ -33,4 +34,39 @@ void setup()
 
 void loop()
 {
+	int ret;
+	int values[5];
+	size_t n_values = sizeof(values) / sizeof(values[0]);
+
+	ret = seeker.GetDirection();
+
+	if (ret >= 0) {
+		Serial.println("direction: ");
+		Serial.println(ret);
+	}
+
+	ret = seeker.GetAngle(true);
+
+	if (ret >= 0) {
+		Serial.println("angle: ");
+		Serial.println(ret);
+	}
+
+	ret = seeker.GetSensorValues(values, n_values);
+
+	if (ret >= 0) {
+		for (int id = 0; id < n_values; id++) {
+			Serial.print("value ");
+			Serial.print(id);
+			Serial.println(": ");
+			Serial.println(values[id]);
+		}
+	}
+
+	ret = seeker.GetAverage();
+
+	if (ret >= 0) {
+		Serial.println("average: ");
+		Serial.println(ret);
+	}
 }
