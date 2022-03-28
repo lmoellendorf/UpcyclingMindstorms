@@ -25,6 +25,7 @@ enum registers {
 I2C::I2C(int addr)
 {
 	I2C::addr = addr;
+	Wire.setClock(11);
 	Wire.begin();
 }
 
@@ -56,8 +57,8 @@ int I2C::Read(int reg, char *val, size_t len)
 		return -1;
 
 	/* set register pointer */
-	Wire.beginTransmission(byte(addr));
-	Wire.write(byte(reg));
+	Wire.beginTransmission(addr);
+	Wire.write(reg);
 	Wire.endTransmission();
 
 	/* request bytes */
@@ -69,6 +70,7 @@ int I2C::Read(int reg, char *val, size_t len)
 			val[i] = Wire.read();
 	}
 
+	Wire.endTransmission();
 	return 0;
 }
 
