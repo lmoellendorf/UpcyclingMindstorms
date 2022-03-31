@@ -41,14 +41,14 @@ void loop()
 	ret = seeker.GetDirection();
 
 	if (ret >= 0) {
-		Serial.println("direction: ");
+		Serial.print("direction: ");
 		Serial.println(ret);
 	}
 
 	ret = seeker.GetAngle(true);
 
 	if (ret >= 0) {
-		Serial.println("angle: ");
+		Serial.print("angle: ");
 		Serial.println(ret);
 	}
 
@@ -58,7 +58,7 @@ void loop()
 		for (int id = 0; id < n_values; id++) {
 			Serial.print("value ");
 			Serial.print(id);
-			Serial.println(": ");
+			Serial.print(": ");
 			Serial.println(values[id]);
 		}
 	}
@@ -66,7 +66,7 @@ void loop()
 	ret = seeker.GetAverage();
 
 	if (ret >= 0) {
-		Serial.println("average: ");
+		Serial.print("average: ");
 		Serial.println(ret);
 	}
 }
