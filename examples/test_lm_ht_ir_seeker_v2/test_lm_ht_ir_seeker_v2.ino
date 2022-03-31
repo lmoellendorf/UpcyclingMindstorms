@@ -69,4 +69,9 @@ void loop()
 		Serial.print("average: ");
 		Serial.println(ret);
 	}
+
+	while (!Serial.available())
+		;
+
+	Serial.read();
 }
