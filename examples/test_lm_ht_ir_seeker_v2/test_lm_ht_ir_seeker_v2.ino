@@ -47,7 +47,7 @@ void loop()
 
 	ret = seeker.GetAngle(true);
 
-	if (ret >= 0) {
+	if (ret != -1) {
 		Serial.print("angle: ");
 		Serial.println(ret);
 	}
