@@ -27,9 +27,9 @@ class I2C
 		int GetVersion(char *version, size_t len);
 		int GetVendorId(char *vendor, size_t len);
 		int GetDeviceId(char *device, size_t len);
+		int addr;
 
 	private:
-		int addr;
 
 };
 
