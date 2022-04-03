@@ -37,53 +37,53 @@ HtIrSeekerV2::HtIrSeekerV2(void): HtIrSeekerV2(A10)
 {
 }
 
-int HtIrSeekerV2::GetVersion(char *version, size_t len)
+int HtIrSeekerV2::getVersion(char *version, size_t len)
 {
-	return i2c.GetVersion(version, len);
+	return i2c.getVersion(version, len);
 }
 
-int HtIrSeekerV2::GetVendorId(char *vendor, size_t len)
+int HtIrSeekerV2::getVendorId(char *vendor, size_t len)
 {
-	return i2c.GetVendorId(vendor, len);
+	return i2c.getVendorId(vendor, len);
 }
 
-int HtIrSeekerV2::GetDeviceId(char *device, size_t len)
+int HtIrSeekerV2::getDeviceId(char *device, size_t len)
 {
-	return i2c.GetDeviceId(device, len);
+	return i2c.getDeviceId(device, len);
 }
 
-bool HtIrSeekerV2::HasDirection(void)
+bool HtIrSeekerV2::hasDirection(void)
 {
-	return !!GetDirection(mode);
+	return !!getDirection(mode);
 }
 
-int HtIrSeekerV2::GetDirection(void)
+int HtIrSeekerV2::getDirection(void)
 {
-	return GetDirection(mode);
+	return getDirection(mode);
 }
 
-int HtIrSeekerV2::GetDirection(enum Mode mode)
+int HtIrSeekerV2::getDirection(enum Mode mode)
 {
 	switch (mode) {
 	case DC:
-		return i2c.ReadByte(HISV2_REG_DC_DIR);
+		return i2c.readByte(HISV2_REG_DC_DIR);
 
 	case AC:
-		return i2c.ReadByte(HISV2_REG_AC_DIR);
+		return i2c.readByte(HISV2_REG_AC_DIR);
 	}
 }
 
-int HtIrSeekerV2::GetDirection(bool block)
+int HtIrSeekerV2::getDirection(bool block)
 {
-	return GetDirection(mode, block);
+	return getDirection(mode, block);
 }
 
-int HtIrSeekerV2::GetDirection(enum Mode mode, bool block)
+int HtIrSeekerV2::getDirection(enum Mode mode, bool block)
 {
 	int dir = -1;
 
 	do {
-		dir = GetDirection(mode);
+		dir = getDirection(mode);
 
 		if (dir)
 			break;
@@ -92,26 +92,26 @@ int HtIrSeekerV2::GetDirection(enum Mode mode, bool block)
 	return dir;
 }
 
-int HtIrSeekerV2::GetAngle(void)
+int HtIrSeekerV2::getAngle(void)
 {
-	return GetAngle(mode);
+	return getAngle(mode);
 }
 
-int HtIrSeekerV2::GetAngle(enum Mode mode)
+int HtIrSeekerV2::getAngle(enum Mode mode)
 {
-	return GetAngle(mode, false);
+	return getAngle(mode, false);
 }
 
-int HtIrSeekerV2::GetAngle(bool block)
+int HtIrSeekerV2::getAngle(bool block)
 {
-	return GetAngle(mode, block);
+	return getAngle(mode, block);
 }
 
-int HtIrSeekerV2::GetAngle(enum Mode mode, bool block)
+int HtIrSeekerV2::getAngle(enum Mode mode, bool block)
 {
 	int dir;
 
-	dir = GetDirection(mode, block);
+	dir = getDirection(mode, block);
 
 	if (dir < 0)
 		return dir;
@@ -119,42 +119,42 @@ int HtIrSeekerV2::GetAngle(enum Mode mode, bool block)
 	return (dir - 5) * 30;
 }
 
-int HtIrSeekerV2::GetSensorValue(unsigned int id)
+int HtIrSeekerV2::getSensorValue(unsigned int id)
 {
-	return GetSensorValue(id, mode);
+	return getSensorValue(id, mode);
 }
 
-int HtIrSeekerV2::GetSensorValue(unsigned int id, enum Mode mode)
+int HtIrSeekerV2::getSensorValue(unsigned int id, enum Mode mode)
 {
 	if (id > 4)
 		return -1;
 
 	switch (mode) {
 	case DC:
-		return i2c.ReadByte(HISV2_REG_DC_VAL + id);
+		return i2c.readByte(HISV2_REG_DC_VAL + id);
 
 	case AC:
-		return i2c.ReadByte(HISV2_REG_AC_VAL + id);
+		return i2c.readByte(HISV2_REG_AC_VAL + id);
 	}
 }
 
-int HtIrSeekerV2::GetSensorValues(int values[], size_t n_values)
+int HtIrSeekerV2::getSensorValues(int values[], size_t n_values)
 {
-	return GetSensorValues(values, n_values, mode);
+	return getSensorValues(values, n_values, mode);
 }
 
-int HtIrSeekerV2::GetSensorValues(int values[], size_t n_values, enum Mode mode)
+int HtIrSeekerV2::getSensorValues(int values[], size_t n_values, enum Mode mode)
 {
 	if (!values)
 		return -1;
 
 	for (int id = 0; id < n_values; id++)
-		values[id] = GetSensorValue(id % 5, mode);
+		values[id] = getSensorValue(id % 5, mode);
 
 	return 0;
 }
 
-int HtIrSeekerV2::GetAverage(void)
+int HtIrSeekerV2::getAverage(void)
 {
-	return i2c.ReadByte(HISV2_REG_DC_AVG);
+	return i2c.readByte(HISV2_REG_DC_AVG);
 }

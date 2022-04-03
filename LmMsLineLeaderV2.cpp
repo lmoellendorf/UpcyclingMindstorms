@@ -36,115 +36,115 @@ MsLineLeaderV2::MsLineLeaderV2(void)
 {
 }
 
-int MsLineLeaderV2::GetVersion(char *version, size_t len)
+int MsLineLeaderV2::getVersion(char *version, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return i2c.GetVersion(version, len);
+	return i2c.getVersion(version, len);
 }
 
-int MsLineLeaderV2::GetVendorId(char *vendor, size_t len)
+int MsLineLeaderV2::getVendorId(char *vendor, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return i2c.GetVendorId(vendor, len);
+	return i2c.getVendorId(vendor, len);
 }
 
-int MsLineLeaderV2::GetDeviceId(char *device, size_t len)
+int MsLineLeaderV2::getDeviceId(char *device, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return i2c.GetDeviceId(device, len);
+	return i2c.getDeviceId(device, len);
 }
 
-int MsLineLeaderV2::WriteCmd(char cmd)
+int MsLineLeaderV2::writeCmd(char cmd)
 {
-	return i2c.Write(MLLV2_CMD, &cmd, 1);
+	return i2c.write(MLLV2_CMD, &cmd, 1);
 }
 
-int MsLineLeaderV2::CalibrateWhite(void)
+int MsLineLeaderV2::calibrateWhite(void)
 {
-	return WriteCmd('W');
+	return writeCmd('W');
 }
 
-int MsLineLeaderV2::CalibrateBlack(void)
+int MsLineLeaderV2::calibrateBlack(void)
 {
-	return WriteCmd('B');
+	return writeCmd('B');
 }
 
-int MsLineLeaderV2::PutToSleep(void)
+int MsLineLeaderV2::putToSleep(void)
 {
-	return WriteCmd('D');
+	return writeCmd('D');
 }
 
-int MsLineLeaderV2::WakeUp(void)
+int MsLineLeaderV2::wakeUp(void)
 {
-	return WriteCmd('P');
+	return writeCmd('P');
 }
 
-int MsLineLeaderV2::InvertColor(void)
+int MsLineLeaderV2::invertColor(void)
 {
-	return WriteCmd('I');
+	return writeCmd('I');
 }
 
-int MsLineLeaderV2::ResetInversion(void)
+int MsLineLeaderV2::resetInversion(void)
 {
-	return WriteCmd('R');
+	return writeCmd('R');
 }
 
-int MsLineLeaderV2::TakeSnapshot(void)
+int MsLineLeaderV2::takeSnapshot(void)
 {
-	return WriteCmd('S');
+	return writeCmd('S');
 }
 
-int MsLineLeaderV2::CfgUs(void)
+int MsLineLeaderV2::cfgUs(void)
 {
-	return WriteCmd('A');
+	return writeCmd('A');
 }
 
-int MsLineLeaderV2::CfgEu(void)
+int MsLineLeaderV2::cfgEu(void)
 {
-	return WriteCmd('E');
+	return writeCmd('E');
 }
 
-int MsLineLeaderV2::CfgUniversal(void)
+int MsLineLeaderV2::cfgUniversal(void)
 {
-	return WriteCmd('U');
+	return writeCmd('U');
 }
 
-int MsLineLeaderV2::GetCalibrated(char *readings, size_t len)
-{
-	len = len > 8 ? 8 : len;
-	return i2c.Read(MLLV2_CALIB, readings, len);
-}
-
-int MsLineLeaderV2::GetWhiteLimit(char *values, size_t len)
+int MsLineLeaderV2::getCalibrated(char *readings, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return i2c.Read(MLLV2_W_LIMIT, values, len);
+	return i2c.read(MLLV2_CALIB, readings, len);
 }
 
-int MsLineLeaderV2::GetBlackLimit(char *values, size_t len)
+int MsLineLeaderV2::getWhiteLimit(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return i2c.Read(MLLV2_B_LIMIT, values, len);
+	return i2c.read(MLLV2_W_LIMIT, values, len);
 }
 
-int MsLineLeaderV2::GetWhiteCalibration(char *values, size_t len)
+int MsLineLeaderV2::getBlackLimit(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return i2c.Read(MLLV2_W_CALIB, values, len);
+	return i2c.read(MLLV2_B_LIMIT, values, len);
 }
 
-int MsLineLeaderV2::GetBlackCalibration(char *values, size_t len)
+int MsLineLeaderV2::getWhiteCalibration(char *values, size_t len)
 {
 	len = len > 8 ? 8 : len;
-	return i2c.Read(MLLV2_B_CALIB, values, len);
+	return i2c.read(MLLV2_W_CALIB, values, len);
 }
 
-int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
+int MsLineLeaderV2::getBlackCalibration(char *values, size_t len)
+{
+	len = len > 8 ? 8 : len;
+	return i2c.read(MLLV2_B_CALIB, values, len);
+}
+
+int MsLineLeaderV2::getVoltage(int *readings, size_t len)
 {
 	int swap, ret;
 
 	len = len > 8 ? 8 : len;
-	ret = i2c.Read(MLLV2_VOLTAGE, (char *)readings, len * 2);
+	ret = i2c.read(MLLV2_VOLTAGE, (char *)readings, len * 2);
 
 	if (ret < 0)
 		return ret;
@@ -160,87 +160,87 @@ int MsLineLeaderV2::GetVoltage(int *readings, size_t len)
 	}
 }
 
-int MsLineLeaderV2::GetAverage(void)
+int MsLineLeaderV2::getAverage(void)
 {
-	return i2c.ReadByte(MLLV2_AVG);
+	return i2c.readByte(MLLV2_AVG);
 }
 
-int MsLineLeaderV2::GetSteering(void)
+int MsLineLeaderV2::getSteering(void)
 {
-	return i2c.ReadByte(MLLV2_STEER);
+	return i2c.readByte(MLLV2_STEER);
 }
 
-int MsLineLeaderV2::GetResult(void)
+int MsLineLeaderV2::getResult(void)
 {
-	return i2c.ReadByte(MLLV2_RESULT);
+	return i2c.readByte(MLLV2_RESULT);
 }
 
-int MsLineLeaderV2::GetSetpoint(void)
+int MsLineLeaderV2::getSetpoint(void)
 {
-	return i2c.ReadByte(MLLV2_SETPT);
+	return i2c.readByte(MLLV2_SETPT);
 }
 
-int MsLineLeaderV2::SetSetpoint(char setpoint)
+int MsLineLeaderV2::setSetpoint(char setpoint)
 {
-	return i2c.Write(MLLV2_SETPT, &setpoint, 1);
+	return i2c.write(MLLV2_SETPT, &setpoint, 1);
 }
 
-int MsLineLeaderV2::GetKp(void)
+int MsLineLeaderV2::getKp(void)
 {
-	return i2c.ReadByte(MLLV2_KP);
+	return i2c.readByte(MLLV2_KP);
 }
 
-int MsLineLeaderV2::SetKp(char k_p)
+int MsLineLeaderV2::setKp(char k_p)
 {
-	return i2c.Write(MLLV2_KP, k_p, 1);
+	return i2c.write(MLLV2_KP, k_p, 1);
 }
 
-int MsLineLeaderV2::GetKi(void)
+int MsLineLeaderV2::getKi(void)
 {
-	return i2c.ReadByte(MLLV2_KI);
+	return i2c.readByte(MLLV2_KI);
 }
 
-int MsLineLeaderV2::SetKi(char k_i)
+int MsLineLeaderV2::setKi(char k_i)
 {
-	return i2c.Write(MLLV2_KI, k_i, 1);
+	return i2c.write(MLLV2_KI, k_i, 1);
 }
 
-int MsLineLeaderV2::GetKd(void)
+int MsLineLeaderV2::getKd(void)
 {
-	return i2c.ReadByte(MLLV2_KD);
+	return i2c.readByte(MLLV2_KD);
 }
 
-int MsLineLeaderV2::SetKd(char k_d)
+int MsLineLeaderV2::setKd(char k_d)
 {
-	return i2c.Write(MLLV2_KD, k_d, 1);
+	return i2c.write(MLLV2_KD, k_d, 1);
 }
 
-int MsLineLeaderV2::GetKpDiv(void)
+int MsLineLeaderV2::getKpDiv(void)
 {
-	return i2c.ReadByte(MLLV2_KP_DIV);
+	return i2c.readByte(MLLV2_KP_DIV);
 }
 
-int MsLineLeaderV2::SetKpDiv(char k_p_div)
+int MsLineLeaderV2::setKpDiv(char k_p_div)
 {
-	return i2c.Write(MLLV2_KP_DIV, k_p_div, 1);
+	return i2c.write(MLLV2_KP_DIV, k_p_div, 1);
 }
 
-int MsLineLeaderV2::GetKiDiv(void)
+int MsLineLeaderV2::getKiDiv(void)
 {
-	return i2c.ReadByte(MLLV2_KI_DIV);
+	return i2c.readByte(MLLV2_KI_DIV);
 }
 
-int MsLineLeaderV2::SetKiDiv(char k_i_div)
+int MsLineLeaderV2::setKiDiv(char k_i_div)
 {
-	return i2c.Write(MLLV2_KI_DIV, k_i_div, 1);
+	return i2c.write(MLLV2_KI_DIV, k_i_div, 1);
 }
 
-int MsLineLeaderV2::GetKdDiv(void)
+int MsLineLeaderV2::getKdDiv(void)
 {
-	return i2c.ReadByte(MLLV2_KD_DIV);
+	return i2c.readByte(MLLV2_KD_DIV);
 }
 
-int MsLineLeaderV2::SetKdDiv(char k_d_div)
+int MsLineLeaderV2::setKdDiv(char k_d_div)
 {
-	return i2c.Write(MLLV2_KD_DIV, k_d_div, 1);
+	return i2c.write(MLLV2_KD_DIV, k_d_div, 1);
 }

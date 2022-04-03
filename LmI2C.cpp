@@ -32,25 +32,25 @@ I2C::I2C(void) : I2C(I2C_ADDR)
 {
 }
 
-int I2C::GetVersion(char *version, size_t len)
+int I2C::getVersion(char *version, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return ReadStr(I2C_REG_VERS, version, len);
+	return readStr(I2C_REG_VERS, version, len);
 }
 
-int I2C::GetVendorId(char *vendor, size_t len)
+int I2C::getVendorId(char *vendor, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return ReadStr(I2C_REG_VEND, vendor, len);
+	return readStr(I2C_REG_VEND, vendor, len);
 }
 
-int I2C::GetDeviceId(char *device, size_t len)
+int I2C::getDeviceId(char *device, size_t len)
 {
 	len = len > 9 ? 9 : len;
-	return ReadStr(I2C_REG_DEV, device, len);
+	return readStr(I2C_REG_DEV, device, len);
 }
 
-int I2C::Read(int reg, char *val, size_t len)
+int I2C::read(int reg, char *val, size_t len)
 {
 	if (!val || !len)
 		return -1;
@@ -72,22 +72,22 @@ int I2C::Read(int reg, char *val, size_t len)
 	return 0;
 }
 
-int I2C::ReadStr(int reg, char *val, size_t len)
+int I2C::readStr(int reg, char *val, size_t len)
 {
 	if (!val || !len)
 		return -1;
 
 	val[len - 1] = '\0';
-	return Read(reg, val, len - 1);
+	return read(reg, val, len - 1);
 }
 
-int I2C::ReadByte(int reg)
+int I2C::readByte(int reg)
 {
 	char val[1];
 	size_t len = sizeof(val) / sizeof(val[0]);
 	int ret;
 
-	ret = Read(reg, val, len);
+	ret = read(reg, val, len);
 
 	if (ret < 0)
 		return ret;
@@ -95,7 +95,7 @@ int I2C::ReadByte(int reg)
 	return val[0];
 }
 
-int I2C::Write(int reg, char *val, size_t len)
+int I2C::write(int reg, char *val, size_t len)
 {
 	if (!val || !len)
 		return -1;

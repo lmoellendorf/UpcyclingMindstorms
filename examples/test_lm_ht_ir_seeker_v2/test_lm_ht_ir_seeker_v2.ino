@@ -8,21 +8,21 @@ void getDeviceInfo(void)
 	size_t len = sizeof(fw_str) / sizeof(fw_str[0]);
 	int ret;
 
-	ret = seeker.GetVersion(fw_str, len);
+	ret = seeker.getVersion(fw_str, len);
 
 	if (!ret) {
 		Serial.println("version: ");
 		Serial.println(fw_str);
 	}
 
-	ret = seeker.GetVendorId(fw_str, len);
+	ret = seeker.getVendorId(fw_str, len);
 
 	if (!ret) {
 		Serial.println("vendor: ");
 		Serial.println(fw_str);
 	}
 
-	ret = seeker.GetDeviceId(fw_str, len);
+	ret = seeker.getDeviceId(fw_str, len);
 
 	if (!ret) {
 		Serial.println("device: ");
@@ -52,15 +52,15 @@ void loop()
 	int ret;
 
 	Serial.print(v);
-	Serial.println(": GetVersion, GetVendorId, GetDeviceId");
+	Serial.println(": getVersion, getVendorId, getDeviceId");
 	Serial.print(d);
-	Serial.println(": GetDirection");
+	Serial.println(": getDirection");
 	Serial.print(a);
-	Serial.println(": GetAngle");
+	Serial.println(": getAngle");
 	Serial.print(V);
-	Serial.println(": GetSensorValues");
+	Serial.println(": getSensorValues");
 	Serial.print(A);
-	Serial.println(": GetAverage");
+	Serial.println(": getAverage");
 
 	while (!Serial.available())
 		;
@@ -73,7 +73,7 @@ void loop()
 		break;
 
 	case d:
-		ret = seeker.GetDirection();
+		ret = seeker.getDirection();
 
 		if (ret >= 0) {
 			Serial.print("direction: ");
@@ -83,7 +83,7 @@ void loop()
 		break;
 
 	case a:
-		ret = seeker.GetAngle(true);
+		ret = seeker.getAngle(true);
 
 		if (ret != -1) {
 			Serial.print("angle: ");
@@ -93,7 +93,7 @@ void loop()
 		break;
 
 	case V:
-		ret = seeker.GetSensorValues(values, n_values);
+		ret = seeker.getSensorValues(values, n_values);
 
 		if (ret >= 0) {
 			for (int id = 0; id < n_values; id++) {
@@ -107,7 +107,7 @@ void loop()
 		break;
 
 	case A:
-		ret = seeker.GetAverage();
+		ret = seeker.getAverage();
 
 		if (ret >= 0) {
 			Serial.print("average: ");

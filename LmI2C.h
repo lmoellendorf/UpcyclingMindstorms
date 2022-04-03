@@ -20,13 +20,13 @@ class I2C
 	public:
 		I2C(int addr);
 		I2C(void);
-		int Read(int reg, char *val, size_t len);
-		int ReadStr(int reg, char *val, size_t len);
-		int ReadByte(int reg);
-		int Write(int reg, char *val, size_t len);
-		int GetVersion(char *version, size_t len);
-		int GetVendorId(char *vendor, size_t len);
-		int GetDeviceId(char *device, size_t len);
+		int read(int reg, char *val, size_t len);
+		int readStr(int reg, char *val, size_t len);
+		int readByte(int reg);
+		int write(int reg, char *val, size_t len);
+		int getVersion(char *version, size_t len);
+		int getVendorId(char *vendor, size_t len);
+		int getDeviceId(char *device, size_t len);
 		int addr;
 
 	private:

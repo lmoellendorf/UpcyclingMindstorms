@@ -8,21 +8,21 @@ void getDeviceInfo(void)
 	size_t len = sizeof(fw_str) / sizeof(fw_str[0]);
 	int ret;
 
-	ret = ll.GetVersion(fw_str, len);
+	ret = ll.getVersion(fw_str, len);
 
 	if (!ret) {
 		Serial.println("version: ");
 		Serial.println(fw_str);
 	}
 
-	ret = ll.GetVendorId(fw_str, len);
+	ret = ll.getVendorId(fw_str, len);
 
 	if (!ret) {
 		Serial.println("vendor: ");
 		Serial.println(fw_str);
 	}
 
-	ret = ll.GetDeviceId(fw_str, len);
+	ret = ll.getDeviceId(fw_str, len);
 
 	if (!ret) {
 		Serial.println("device: ");
@@ -58,29 +58,29 @@ void loop()
 	int ret;
 
 	Serial.print(v);
-	Serial.println(": GetVersion, GetVendorId, GetDeviceId");
+	Serial.println(": getVersion, getVendorId, getDeviceId");
 	Serial.print(c);
-	Serial.println(": GetCalibrated");
+	Serial.println(": getCalibrated");
 	Serial.print(w);
-	Serial.println(": GetWhiteLimit");
+	Serial.println(": getWhiteLimit");
 	Serial.print(b);
-	Serial.println(": GetBlackLimit");
+	Serial.println(": getBlackLimit");
 	Serial.print(W);
-	Serial.println(": GetWhiteCalibration");
+	Serial.println(": getWhiteCalibration");
 	Serial.print(B);
-	Serial.println(": GetBlackCalibration");
+	Serial.println(": getBlackCalibration");
 	Serial.print(V);
-	Serial.println(": GetVoltage");
+	Serial.println(": getVoltage");
 	Serial.print(s);
-	Serial.println(": GetSteering");
+	Serial.println(": getSteering");
 	Serial.print(a);
-	Serial.println(": GetAverage");
+	Serial.println(": getAverage");
 	Serial.print(r);
-	Serial.println(": GetResult");
+	Serial.println(": getResult");
 	Serial.print(p);
-	Serial.println(": PutToSleep");
+	Serial.println(": putToSleep");
 	Serial.print(u);
-	Serial.println(": WakeUp");
+	Serial.println(": wakeUp");
 
 	while (!Serial.available())
 		;
@@ -93,7 +93,7 @@ void loop()
 		break;
 
 	case c:
-		ret = ll.GetCalibrated(readings, n_readings);
+		ret = ll.getCalibrated(readings, n_readings);
 		Serial.println("calibrated: ");
 
 		for (int i = 0; i < n_readings; i++) {
@@ -107,7 +107,7 @@ void loop()
 		break;
 
 	case w:
-		ret = ll.GetWhiteLimit(readings, n_readings);
+		ret = ll.getWhiteLimit(readings, n_readings);
 		Serial.println("white limit: ");
 
 		for (int i = 0; i < n_readings; i++) {
@@ -121,7 +121,7 @@ void loop()
 		break;
 
 	case b:
-		ret = ll.GetBlackLimit(readings, n_readings);
+		ret = ll.getBlackLimit(readings, n_readings);
 		Serial.println("black limit: ");
 
 		for (int i = 0; i < n_readings; i++) {
@@ -135,7 +135,7 @@ void loop()
 		break;
 
 	case W:
-		ret = ll.GetWhiteCalibration(readings, n_readings);
+		ret = ll.getWhiteCalibration(readings, n_readings);
 		Serial.println("white calibration: ");
 
 		for (int i = 0; i < n_readings; i++) {
@@ -149,7 +149,7 @@ void loop()
 		break;
 
 	case B:
-		ret = ll.GetBlackCalibration(readings, n_readings);
+		ret = ll.getBlackCalibration(readings, n_readings);
 		Serial.println("black calibration: ");
 
 		for (int i = 0; i < n_readings; i++) {
@@ -163,7 +163,7 @@ void loop()
 		break;
 
 	case V:
-		ret = ll.GetVoltage(voltage, n_voltage);
+		ret = ll.getVoltage(voltage, n_voltage);
 		Serial.println("voltage: ");
 
 		for (int i = 0; i < n_voltage; i++) {
@@ -177,30 +177,30 @@ void loop()
 		break;
 
 	case s:
-		ret = ll.GetSteering();
+		ret = ll.getSteering();
 		Serial.println("steering: ");
 		Serial.println(ret);
 		break;
 
 	case a:
-		ret = ll.GetAverage();
+		ret = ll.getAverage();
 		Serial.println("average: ");
 		Serial.println(ret);
 		break;
 
 	case r:
-		ret = ll.GetResult();
+		ret = ll.getResult();
 		Serial.println("result: ");
 		Serial.println(ret);
 		break;
 
 	case p:
-		ll.PutToSleep();
+		ll.putToSleep();
 		delay(500);
 		break;
 
 	case u:
-		ll.WakeUp();
+		ll.wakeUp();
 		delay(250);
 		break;
 	}
