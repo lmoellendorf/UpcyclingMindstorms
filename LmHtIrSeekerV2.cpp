@@ -22,18 +22,19 @@ enum registers {
 	HISV2_REG_AC_VAL = 0x4A,
 };
 
-HtIrSeekerV2::HtIrSeekerV2(int pin, enum Mode mode): i2c(HISV2_ADDR)
+HtIrSeekerV2::HtIrSeekerV2(int pin, int mode): i2c(HISV2_ADDR)
 {
-	HtIrSeekerV2::mode = mode;
+	setMode(mode);
 	pinMode(pin, OUTPUT);
 	digitalWrite(pin, 1);
 }
 
-HtIrSeekerV2::HtIrSeekerV2(int pin): HtIrSeekerV2(pin, Mode::AC)
+HtIrSeekerV2::HtIrSeekerV2(int mode): i2c(HISV2_ADDR)
 {
+	setMode(mode);
 }
 
-HtIrSeekerV2::HtIrSeekerV2(void): HtIrSeekerV2(A10)
+HtIrSeekerV2::HtIrSeekerV2(void): HtIrSeekerV2(A10, AC)
 {
 }
 
@@ -62,9 +63,9 @@ int HtIrSeekerV2::getDirection(void)
 	return getDirection(mode);
 }
 
-int HtIrSeekerV2::getDirection(enum Mode mode)
+int HtIrSeekerV2::getDirection(int mode)
 {
-	switch (mode) {
+	switch (switchMode(mode)) {
 	case DC:
 		return i2c.readByte(HISV2_REG_DC_DIR);
 
@@ -78,7 +79,7 @@ int HtIrSeekerV2::getDirection(bool block)
 	return getDirection(mode, block);
 }
 
-int HtIrSeekerV2::getDirection(enum Mode mode, bool block)
+int HtIrSeekerV2::getDirection(int mode, bool block)
 {
 	int dir = -1;
 
@@ -97,7 +98,7 @@ int HtIrSeekerV2::getAngle(void)
 	return getAngle(mode);
 }
 
-int HtIrSeekerV2::getAngle(enum Mode mode)
+int HtIrSeekerV2::getAngle(int mode)
 {
 	return getAngle(mode, false);
 }
@@ -107,7 +108,7 @@ int HtIrSeekerV2::getAngle(bool block)
 	return getAngle(mode, block);
 }
 
-int HtIrSeekerV2::getAngle(enum Mode mode, bool block)
+int HtIrSeekerV2::getAngle(int mode, bool block)
 {
 	int dir;
 
@@ -124,12 +125,12 @@ int HtIrSeekerV2::getSensorValue(unsigned int id)
 	return getSensorValue(id, mode);
 }
 
-int HtIrSeekerV2::getSensorValue(unsigned int id, enum Mode mode)
+int HtIrSeekerV2::getSensorValue(unsigned int id, int mode)
 {
 	if (id > 4)
 		return -1;
 
-	switch (mode) {
+	switch (switchMode(mode)) {
 	case DC:
 		return i2c.readByte(HISV2_REG_DC_VAL + id);
 
@@ -143,7 +144,7 @@ int HtIrSeekerV2::getSensorValues(int values[], size_t n_values)
 	return getSensorValues(values, n_values, mode);
 }
 
-int HtIrSeekerV2::getSensorValues(int values[], size_t n_values, enum Mode mode)
+int HtIrSeekerV2::getSensorValues(int values[], size_t n_values, int mode)
 {
 	if (!values)
 		return -1;
@@ -157,4 +158,23 @@ int HtIrSeekerV2::getSensorValues(int values[], size_t n_values, enum Mode mode)
 int HtIrSeekerV2::getAverage(void)
 {
 	return i2c.readByte(HISV2_REG_DC_AVG);
+}
+
+int HtIrSeekerV2::switchMode(int mode)
+{
+	switch (mode) {
+	case AC:
+
+	/* fall through */
+	case DC:
+		return mode;
+
+	default:
+		return AC;
+	}
+}
+
+void HtIrSeekerV2::setMode(int mode)
+{
+	HtIrSeekerV2::mode = switchMode(mode);
 }

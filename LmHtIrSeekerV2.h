@@ -19,34 +19,36 @@ class HtIrSeekerV2
 {
 
 	public:
-		enum Mode {
-			AC,
-			DC,
-		};
-		HtIrSeekerV2(int pin, enum Mode mode);
-		HtIrSeekerV2(int pin);
+		static const int AC = 0;
+		static const int DC = 1;
+		HtIrSeekerV2(int pin, int mode);
 		HtIrSeekerV2(void);
 		int getVersion(char *version, size_t len);
 		int getVendorId(char *vendor, size_t len);
 		int getDeviceId(char *device, size_t len);
 		bool hasDirection(void);
 		int getDirection(void);
-		int getDirection(enum Mode mode);
+		int getDirection(int mode);
 		int getDirection(bool block);
-		int getDirection(enum Mode mode, bool block);
+		int getDirection(int mode, bool block);
 		int getAngle(void);
-		int getAngle(enum Mode mode);
+		int getAngle(int mode);
 		int getAngle(bool block);
-		int getAngle(enum Mode mode, bool block);
+		int getAngle(int mode, bool block);
 		int getSensorValue(unsigned int id);
-		int getSensorValue(unsigned int id, enum Mode mode);
+		int getSensorValue(unsigned int id, int mode);
 		int getSensorValues(int values[], size_t n_values);
-		int getSensorValues(int values[], size_t n_values, enum Mode mode);
+		int getSensorValues(int values[], size_t n_values, int mode);
 		int getAverage(void);
+
+	protected:
+		HtIrSeekerV2(int mode);
+		void setMode(int mode);
 
 	private:
 		I2C i2c;
-		enum Mode mode;
+		int mode;
+		int switchMode(int mode);
 
 };
 
