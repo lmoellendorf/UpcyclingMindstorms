@@ -8,6 +8,7 @@
  */
 
 #include "LmHtIrSeekerV2.h"
+#include <Arduino.h>
 
 enum defaults {
 	HISV2_ADDR = 0x8,
@@ -21,15 +22,19 @@ enum registers {
 	HISV2_REG_AC_VAL = 0x4A,
 };
 
-
-HtIrSeekerV2::HtIrSeekerV2(enum Mode mode): i2c(HISV2_ADDR)
+HtIrSeekerV2::HtIrSeekerV2(int pin, enum Mode mode): i2c(HISV2_ADDR)
 {
 	HtIrSeekerV2::mode = mode;
+	pinMode(pin, OUTPUT);
+	digitalWrite(pin, 1);
 }
 
-HtIrSeekerV2::HtIrSeekerV2(void)
+HtIrSeekerV2::HtIrSeekerV2(int pin): HtIrSeekerV2(pin, Mode::AC)
 {
-	HtIrSeekerV2(Mode::AC);
+}
+
+HtIrSeekerV2::HtIrSeekerV2(void): HtIrSeekerV2(A10)
+{
 }
 
 int HtIrSeekerV2::GetVersion(char *version, size_t len)

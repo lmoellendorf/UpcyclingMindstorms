@@ -23,8 +23,9 @@ class HtIrSeekerV2
 			AC,
 			DC,
 		};
+		HtIrSeekerV2(int pin, enum Mode mode);
+		HtIrSeekerV2(int pin);
 		HtIrSeekerV2(void);
-		HtIrSeekerV2(enum Mode mode);
 		int GetVersion(char *version, size_t len);
 		int GetVendorId(char *vendor, size_t len);
 		int GetDeviceId(char *device, size_t len);
