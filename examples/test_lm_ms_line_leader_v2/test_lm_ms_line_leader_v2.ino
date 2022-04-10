@@ -55,6 +55,7 @@ void loop()
 	const char r = 'r';
 	const char p = 'p';
 	const char u = 'u';
+	int addr;
 	int ret;
 
 	Serial.print(v);
@@ -81,6 +82,7 @@ void loop()
 	Serial.println(": putToSleep");
 	Serial.print(u);
 	Serial.println(": wakeUp");
+	Serial.println("1-9: Change address");
 
 	while (!Serial.available())
 		;
@@ -203,5 +205,17 @@ void loop()
 		ll.wakeUp();
 		delay(250);
 		break;
+
+	default:
+		addr = key - 0x30;
+
+		if (addr > 0 && addr < 10) {
+			ll.changeAddress(addr);
+			Serial.print("New address: ");
+			Serial.println(addr);
+		}
+
+		break;
+
 	}
 }

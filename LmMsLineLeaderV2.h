@@ -23,6 +23,7 @@ class MsLineLeaderV2
 		int getVersion(char *version, size_t len);
 		int getVendorId(char *vendor, size_t len);
 		int getDeviceId(char *device, size_t len);
+		int changeAddress(char addr);
 		int writeCmd(char cmd);
 		int calibrateWhite(void);
 		int calibrateBlack(void);

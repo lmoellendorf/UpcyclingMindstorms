@@ -32,6 +32,9 @@ enum registers {
 	MLLV2_KD_DIV  = 0x63,
 };
 
+static char cmd_addr[] = {0xA0, 0xAA, 0xA5, 0};
+static const size_t n_cmd_addr = sizeof(cmd_addr) / sizeof(cmd_addr[0]);
+
 MsLineLeaderV2::MsLineLeaderV2(void)
 {
 }
@@ -52,6 +55,27 @@ int MsLineLeaderV2::getDeviceId(char *device, size_t len)
 {
 	len = len > 9 ? 9 : len;
 	return i2c.getDeviceId(device, len);
+}
+
+int MsLineLeaderV2::changeAddress(char addr)
+{
+	cmd_addr[n_cmd_addr - 1] = addr << 1;
+
+	for (int i = 0; i < n_cmd_addr; i++) {
+		writeCmd(cmd_addr[i]);
+		delay(100);
+	}
+
+	i2c.addr = addr;
+
+	for (int i = 0; i < addr; i++) {
+		putToSleep();
+		delay(300);
+		wakeUp();
+		delay(300);
+	}
+
+	return 0;
 }
 
 int MsLineLeaderV2::writeCmd(char cmd)
