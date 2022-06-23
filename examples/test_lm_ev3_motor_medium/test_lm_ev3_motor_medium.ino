@@ -2,7 +2,8 @@
 #include <Wire.h>
 #include <math.h>
 
-MeEncoderMotor motor(0x09, SLOT1);
+MeEncoderNew motor(0x11, SLOT1);
+//MeEncoderMotor motor(0x09, SLOT1);
 int speed = 100;
 
 void setup()
