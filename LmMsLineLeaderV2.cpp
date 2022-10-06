@@ -32,7 +32,7 @@ enum registers {
 	MLLV2_KD_DIV  = 0x63,
 };
 
-static char cmd_addr[] = {0xA0, 0xAA, 0xA5, 0};
+static char cmd_addr[] = {'\xA0', '\xAA', '\xA5', '\x00'};
 static const size_t n_cmd_addr = sizeof(cmd_addr) / sizeof(cmd_addr[0]);
 
 MsLineLeaderV2::MsLineLeaderV2(void)
