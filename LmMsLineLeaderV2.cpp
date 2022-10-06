@@ -216,7 +216,7 @@ int MsLineLeaderV2::getKp(void)
 
 int MsLineLeaderV2::setKp(char k_p)
 {
-	return i2c.write(MLLV2_KP, k_p, 1);
+	return i2c.write(MLLV2_KP, &k_p, 1);
 }
 
 int MsLineLeaderV2::getKi(void)
@@ -226,7 +226,7 @@ int MsLineLeaderV2::getKi(void)
 
 int MsLineLeaderV2::setKi(char k_i)
 {
-	return i2c.write(MLLV2_KI, k_i, 1);
+	return i2c.write(MLLV2_KI, &k_i, 1);
 }
 
 int MsLineLeaderV2::getKd(void)
@@ -236,7 +236,7 @@ int MsLineLeaderV2::getKd(void)
 
 int MsLineLeaderV2::setKd(char k_d)
 {
-	return i2c.write(MLLV2_KD, k_d, 1);
+	return i2c.write(MLLV2_KD, &k_d, 1);
 }
 
 int MsLineLeaderV2::getKpDiv(void)
@@ -246,7 +246,7 @@ int MsLineLeaderV2::getKpDiv(void)
 
 int MsLineLeaderV2::setKpDiv(char k_p_div)
 {
-	return i2c.write(MLLV2_KP_DIV, k_p_div, 1);
+	return i2c.write(MLLV2_KP_DIV, &k_p_div, 1);
 }
 
 int MsLineLeaderV2::getKiDiv(void)
@@ -256,7 +256,7 @@ int MsLineLeaderV2::getKiDiv(void)
 
 int MsLineLeaderV2::setKiDiv(char k_i_div)
 {
-	return i2c.write(MLLV2_KI_DIV, k_i_div, 1);
+	return i2c.write(MLLV2_KI_DIV, &k_i_div, 1);
 }
 
 int MsLineLeaderV2::getKdDiv(void)
@@ -266,5 +266,5 @@ int MsLineLeaderV2::getKdDiv(void)
 
 int MsLineLeaderV2::setKdDiv(char k_d_div)
 {
-	return i2c.write(MLLV2_KD_DIV, k_d_div, 1);
+	return i2c.write(MLLV2_KD_DIV, &k_d_div, 1);
 }
