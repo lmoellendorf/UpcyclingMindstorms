@@ -1,0 +1,19 @@
+image: debian:stable-backports
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+pages:
+  stage: deploy
+  script:
+    - apt-get update
+    - apt-get install -y doxygen rsync
+    - doxygen
+    - mkdir public/
+    - rsync --archive docs/html/ public/
+  artifacts:
+      paths:
+        - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
