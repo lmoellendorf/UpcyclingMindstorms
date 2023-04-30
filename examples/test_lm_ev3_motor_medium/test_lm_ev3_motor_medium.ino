@@ -2,7 +2,15 @@
 #include <Wire.h>
 #include <math.h>
 
+/**
+ * I2C address is configurable by DIP switches
+ * Base address is 0x11
+ * Address is 0x11 + <dip-value>
+ */
 MeEncoderNew motor(0x11, SLOT1);
+/**
+ * Old encoder has fixed I2C address
+ */
 //MeEncoderMotor motor(0x09, SLOT1);
 int speed = 100;
 
