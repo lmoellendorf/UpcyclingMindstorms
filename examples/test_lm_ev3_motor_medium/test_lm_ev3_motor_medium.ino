@@ -83,6 +83,7 @@ void loop()
 	case s:
 		Serial.println("STOP");
 		speed = 0;
+		motor.reset();
 		break;
 
 	case t:
