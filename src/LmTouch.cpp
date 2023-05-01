@@ -2,7 +2,7 @@
  * @copyright Lars Möllendorf
  * @file
  * @author Lars Möllendorf <lars@moellendorf.eu>
- * @brief Mindsensors touch sensor for Arduino
+ * @brief LEGO Mindstorms NXT touch sensor for Arduino
  *
  * @details
  */
