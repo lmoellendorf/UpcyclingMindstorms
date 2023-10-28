@@ -2,7 +2,7 @@
  * @copyright Lars Möllendorf
  * @file
  * @author Lars Möllendorf <lars@moellendorf.eu>
- * @brief Mindsensors touch sensor for Arduino
+ * @brief LEGO Mindstorms NXT touch sensor for Arduino
  *
  * @details
  */
@@ -18,8 +18,21 @@ class Touch
 {
 
 	public:
+		/**
+		 * Constructor
+		 *
+		 * @param pin  Analog Arduino pin used as input
+		 */
 		Touch(int pin);
+
+		/**
+		 * @return true, if touch sensor is released. false, else.
+		 */
 		bool isUp(void);
+
+		/**
+		 * @return true, if touch sensor is pressed. false, else
+		 */
 		bool isDown(void);
 
 	private:
