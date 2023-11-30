@@ -1,27 +1,27 @@
 #include <LmMsLineLeaderV2.h>
 
-MsLineLeaderV2 ll = MsLineLeaderV2();
+MsLineSensorArray lsa = MsLineSensorArray();
 
 void getDeviceInfo(void) {
   char fw_str[9] = { 0 };
   size_t len = sizeof(fw_str) / sizeof(fw_str[0]);
   int ret;
 
-  ret = ll.getVersion(fw_str, len);
+  ret = lsa.getVersion(fw_str, len);
 
   if (!ret) {
     Serial.println("version: ");
     Serial.println(fw_str);
   }
 
-  ret = ll.getVendorId(fw_str, len);
+  ret = lsa.getVendorId(fw_str, len);
 
   if (!ret) {
     Serial.println("vendor: ");
     Serial.println(fw_str);
   }
 
-  ret = ll.getDeviceId(fw_str, len);
+  ret = lsa.getDeviceId(fw_str, len);
 
   if (!ret) {
     Serial.println("device: ");
@@ -34,59 +34,6 @@ void setup() {
   getDeviceInfo();
 }
 
-static int getResultNAverage(int *result, int *average) {
-  const size_t n = 8;
-  char calib[n] = { 0 };
-  int count = 0;
-  int ret;
-
-  if (!result && !average)
-    return -1;
-
-  ret = ll.getCalibrated(calib, n);
-
-  if (ret < 0)
-    return ret;
-
-  for (int i = 0; i < n; i++) {
-    if (calib[i] < 50) {
-      if (result)
-        *result |= (1 << i);
-
-      if (average)
-        *average += ((i + 1) * 10);
-
-      count++;
-    }
-  }
-
-  if (average && count)
-    *average /= count;
-
-  return 0;
-}
-
-static int getAverage(void) {
-  int ret, average = 0;
-
-  ret = getResultNAverage(NULL, &average);
-
-  if (ret < 0)
-    return 0;
-
-  return average;
-}
-
-static int getResult(void) {
-  int ret, result = 0;
-
-  ret = getResultNAverage(&result, NULL);
-
-  if (ret < 0)
-    return 0;
-
-  return result;
-}
 void loop() {
   char readings[8];
   size_t n_readings = sizeof(readings) / sizeof(readings[0]);
@@ -101,7 +48,6 @@ void loop() {
   const char W = 'W';
   const char B = 'B';
   const char V = 'V';
-  const char s = 's';
   const char a = 'a';
   const char r = 'r';
   const char p = 'p';
@@ -125,8 +71,6 @@ void loop() {
   Serial.println(": getBlackCalibration");
   Serial.print(V);
   Serial.println(": getVoltage");
-  Serial.print(s);
-  Serial.println(": getSteering");
   Serial.print(a);
   Serial.println(": getAverage");
   Serial.print(r);
@@ -155,9 +99,9 @@ void loop() {
         ;
 
       (void)Serial.read();
-      ret = ll.calibrateWhite();
+      ret = lsa.calibrateWhite();
       delay(100);
-      ret = ll.getWhiteCalibration(readings, n_readings);
+      ret = lsa.getWhiteCalibration(readings, n_readings);
       Serial.println("White calibration: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -175,9 +119,9 @@ void loop() {
         ;
 
       (void)Serial.read();
-      ret = ll.calibrateBlack();
+      ret = lsa.calibrateBlack();
       delay(100);
-      ret = ll.getBlackCalibration(readings, n_readings);
+      ret = lsa.getBlackCalibration(readings, n_readings);
       Serial.println("Black calibration: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -189,7 +133,7 @@ void loop() {
 
       Serial.println("");
 
-      ret = ll.getCalibrated(readings, n_readings);
+      ret = lsa.getCalibrated(readings, n_readings);
       Serial.println("calibrated: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -203,7 +147,7 @@ void loop() {
       break;
 
     case c:
-      ret = ll.getCalibrated(readings, n_readings);
+      ret = lsa.getCalibrated(readings, n_readings);
       Serial.println("calibrated: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -217,7 +161,7 @@ void loop() {
       break;
 
     case w:
-      ret = ll.getWhiteLimit(readings, n_readings);
+      ret = lsa.getWhiteLimit(readings, n_readings);
       Serial.println("white limit: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -231,7 +175,7 @@ void loop() {
       break;
 
     case b:
-      ret = ll.getBlackLimit(readings, n_readings);
+      ret = lsa.getBlackLimit(readings, n_readings);
       Serial.println("black limit: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -245,7 +189,7 @@ void loop() {
       break;
 
     case W:
-      ret = ll.getWhiteCalibration(readings, n_readings);
+      ret = lsa.getWhiteCalibration(readings, n_readings);
       Serial.println("white calibration: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -259,7 +203,7 @@ void loop() {
       break;
 
     case B:
-      ret = ll.getBlackCalibration(readings, n_readings);
+      ret = lsa.getBlackCalibration(readings, n_readings);
       Serial.println("black calibration: ");
 
       for (int i = 0; i < n_readings; i++) {
@@ -273,7 +217,7 @@ void loop() {
       break;
 
     case V:
-      ret = ll.getVoltage(voltage, n_voltage);
+      ret = lsa.getVoltage(voltage, n_voltage);
       Serial.println("voltage: ");
 
       for (int i = 0; i < n_voltage; i++) {
@@ -286,31 +230,25 @@ void loop() {
       Serial.println("");
       break;
 
-    case s:
-      ret = ll.getSteering();
-      Serial.println("steering: ");
-      Serial.println(ret);
-      break;
-
     case a:
-      ret = getAverage();
+      ret = lsa.getAverage();
       Serial.println("average: ");
       Serial.println(ret);
       break;
 
     case r:
-      ret = getResult();
+      ret = lsa.getResult();
       Serial.println("result: ");
       Serial.println(ret);
       break;
 
     case p:
-      ll.putToSleep();
+      lsa.putToSleep();
       delay(500);
       break;
 
     case u:
-      ll.wakeUp();
+      lsa.wakeUp();
       delay(250);
       break;
 
@@ -318,7 +256,7 @@ void loop() {
       addr = key - 0x30;
 
       if (addr > 0 && addr < 10) {
-        ll.changeAddress(addr);
+        lsa.changeAddress(addr);
         Serial.print("New address: ");
         Serial.println(addr);
       }
