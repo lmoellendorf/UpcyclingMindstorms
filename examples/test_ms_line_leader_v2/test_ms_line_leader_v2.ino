@@ -41,6 +41,7 @@ void loop() {
   size_t n_voltage = sizeof(voltage) / sizeof(voltage[0]);
   char key;
   const char v = 'v';
+  const char C = 'C';
   const char c = 'c';
   const char w = 'w';
   const char b = 'b';
@@ -57,6 +58,8 @@ void loop() {
 
   Serial.print(v);
   Serial.println(": getVersion, getVendorId, getDeviceId");
+  Serial.print(C);
+  Serial.println(": calibrate Sensor");
   Serial.print(c);
   Serial.println(": getCalibrated");
   Serial.print(w);
@@ -89,6 +92,61 @@ void loop() {
   switch (key) {
     case v:
       getDeviceInfo();
+      break;
+
+    case C:
+      Serial.println("Put sensor above WHITE!");
+      Serial.println("Press key to continue");
+
+      while (!Serial.available())
+        ;
+
+      (void)Serial.read();
+      ret = ll.calibrateWhite();
+      delay(100);
+      ret = ll.getWhiteCalibration(readings, n_readings);
+      Serial.println("White calibration: ");
+
+      for (int i = 0; i < n_readings; i++) {
+        Serial.print(readings[i], DEC);
+
+        if (i != n_readings - 1)
+          Serial.print(":");
+      }
+
+      Serial.println("");
+      Serial.println("Put sensor above BLACK!");
+      Serial.println("Press key to continue");
+
+      while (!Serial.available())
+        ;
+
+      (void)Serial.read();
+      ret = ll.calibrateBlack();
+      delay(100);
+      ret = ll.getBlackCalibration(readings, n_readings);
+      Serial.println("Black calibration: ");
+
+      for (int i = 0; i < n_readings; i++) {
+        Serial.print(readings[i], DEC);
+
+        if (i != n_readings - 1)
+          Serial.print(":");
+      }
+
+      Serial.println("");
+
+      ret = ll.getCalibrated(readings, n_readings);
+      Serial.println("calibrated: ");
+
+      for (int i = 0; i < n_readings; i++) {
+        Serial.print(readings[i], DEC);
+
+        if (i != n_readings - 1)
+          Serial.print(":");
+      }
+
+      Serial.println("");
       break;
 
     case c:
