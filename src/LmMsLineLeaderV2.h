@@ -16,29 +16,20 @@
 #define LM_MS_LINE_LEADER_V2_
 //! @endcond
 
-#include "LmI2C.h"
+#include "LmMsI2cSensor.h"
 #include <stddef.h>
 
-class MsLineLeaderV2
+class MsLineLeaderV2: public MsI2cSensor
 {
 
 	public:
 		MsLineLeaderV2(void);
-		int getVersion(char *version, size_t len);
-		int getVendorId(char *vendor, size_t len);
-		int getDeviceId(char *device, size_t len);
-		int changeAddress(char addr);
 		int writeCmd(char cmd);
 		int calibrateWhite(void);
 		int calibrateBlack(void);
-		int putToSleep(void);
-		int wakeUp(void);
 		int invertColor(void);
 		int resetInversion(void);
 		int takeSnapshot(void);
-		int cfgUs(void);
-		int cfgEu(void);
-		int cfgUniversal(void);
 		int getCalibrated(char *readings, size_t len);
 		int getWhiteLimit(char *values, size_t len);
 		int getBlackLimit(char *values, size_t len);
@@ -182,10 +173,6 @@ class MsLineLeaderV2
 		int setKiDiv(char k_i_div);
 		int getKdDiv(void);
 		int setKdDiv(char k_d_div);
-
-	private:
-		I2C i2c;
-
 };
 
 //! @cond SuppressGuard
