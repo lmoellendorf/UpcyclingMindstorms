@@ -35,80 +35,49 @@ MsLineLeaderV2::MsLineLeaderV2(void)
 {
 }
 
-int MsLineLeaderV2::calibrateWhite(void)
-{
-	return writeCmd('W');
-}
-
-int MsLineLeaderV2::calibrateBlack(void)
-{
-	return writeCmd('B');
-}
-
 int MsLineLeaderV2::invertColor(void)
 {
-	return writeCmd('I');
+	return MsI2cSensor::writeCmd('I');
 }
 
 int MsLineLeaderV2::resetInversion(void)
 {
-	return writeCmd('R');
+	return MsI2cSensor::writeCmd('R');
 }
 
 int MsLineLeaderV2::takeSnapshot(void)
 {
-	return writeCmd('S');
+	return MsI2cSensor::writeCmd('S');
 }
 
 int MsLineLeaderV2::getCalibrated(char *readings, size_t len)
 {
-	len = len > 8 ? 8 : len;
-	return I2C::read(MLLV2_CALIB, readings, len);
+	return MsLineSensorArray::getUpTo8Bytes(MLLV2_CALIB, readings, len);
 }
 
 int MsLineLeaderV2::getWhiteLimit(char *values, size_t len)
 {
-	len = len > 8 ? 8 : len;
-	return I2C::read(MLLV2_W_LIMIT, values, len);
+	return MsLineSensorArray::getUpTo8Bytes(MLLV2_W_LIMIT, values, len);
 }
 
 int MsLineLeaderV2::getBlackLimit(char *values, size_t len)
 {
-	len = len > 8 ? 8 : len;
-	return I2C::read(MLLV2_B_LIMIT, values, len);
+	return MsLineSensorArray::getUpTo8Bytes(MLLV2_B_LIMIT, values, len);
 }
 
 int MsLineLeaderV2::getWhiteCalibration(char *values, size_t len)
 {
-	len = len > 8 ? 8 : len;
-	return I2C::read(MLLV2_W_CALIB, values, len);
+	return MsLineSensorArray::getUpTo8Bytes(MLLV2_W_CALIB, values, len);
 }
 
 int MsLineLeaderV2::getBlackCalibration(char *values, size_t len)
 {
-	len = len > 8 ? 8 : len;
-	return I2C::read(MLLV2_B_CALIB, values, len);
+	return MsLineSensorArray::getUpTo8Bytes(MLLV2_B_CALIB, values, len);
 }
 
-int MsLineLeaderV2::getVoltage(int *readings, size_t len)
+int MsLineLeaderV2::getVoltage(uint16_t *readings, size_t len)
 {
-	int swap, ret;
-
-	len = len > 8 ? 8 : len;
-	ret = I2C::read(MLLV2_VOLTAGE, (char *)readings, len * 2);
-
-	if (ret < 0)
-		return ret;
-
-
-	/*
-	 * swap byte - it is assumed that int is 16bit
-	 */
-	for (int i = 0; i < len; i++) {
-		swap        = readings[i];
-		readings[i] = readings[i] >> 8;
-		readings[i] |= swap << 8;
-	}
+	return MsLineSensorArray::getUpTo8Words(MLLV2_VOLTAGE, readings, len);
 }
 
 int MsLineLeaderV2::getAverage(void)
