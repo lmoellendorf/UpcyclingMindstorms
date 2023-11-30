@@ -194,6 +194,7 @@ class MsLineSensorArray: public MsI2cSensor
 	protected:
 		int getUpTo8Bytes(int reg, char *readings, size_t len);
 		int getUpTo8Words(int reg, uint16_t *readings, size_t len);
+		int getResultNAverage(int *result, int *average);
 };
 
 //! @cond SuppressGuard

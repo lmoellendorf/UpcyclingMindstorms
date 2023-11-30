@@ -92,10 +92,59 @@ int MsLineSensorArray::getVoltage(uint16_t *readings, size_t len)
 	return getUpTo8Words(MS_LSA_VOLTAGE, readings, len);
 }
 
+int MsLineSensorArray::getResultNAverage(int *result, int *average)
+{
+	const size_t n = 8;
+	char calib[n] = { 0 };
+	int count = 0;
+	int ret;
+
+	if (!result && !average)
+		return -1;
+
+	ret = getCalibrated(calib, n);
+
+	if (ret < 0)
+		return ret;
+
+	for (int i = 0; i < n; i++) {
+		if (calib[i] < 50) {
+			if (result)
+				*result |= (1 << i);
+
+			if (average)
+				*average += ((i + 1) * 10);
+
+			count++;
+		}
+	}
+
+	if (average && count)
+		*average /= count;
+
+	return 0;
+}
+
 int MsLineSensorArray::getAverage(void)
 {
+	int ret, average = 0;
+
+	ret = getResultNAverage(NULL, &average);
+
+	if (ret < 0)
+		return 0;
+
+	return average;
 }
 
 int MsLineSensorArray::getResult(void)
 {
+	int ret, result = 0;
+
+	ret = getResultNAverage(&result, NULL);
+
+	if (ret < 0)
+		return 0;
+
+	return result;
 }
