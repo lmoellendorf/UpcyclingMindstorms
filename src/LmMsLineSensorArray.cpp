@@ -22,6 +22,7 @@ enum registers {
 
 MsLineSensorArray::MsLineSensorArray(void)
 {
+	addr = 0x14 / 2;
 }
 
 int MsLineSensorArray::calibrateWhite(void)
