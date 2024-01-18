@@ -33,6 +33,7 @@ enum registers {
 
 MsLineLeaderV2::MsLineLeaderV2(void)
 {
+	addr = 0x02 / 2;
 }
 
 int MsLineLeaderV2::invertColor(void)
