@@ -62,6 +62,33 @@ int MsI2cSensor::changeAddress(char addr)
 	return 0;
 }
 
+int MsI2cSensor::probeAddress(void)
+{
+	char vendor[9] = {};
+	size_t len = sizeof(vendor) / sizeof(vendor[0]);
+	int oldaddr, ret = 0;
+
+	oldaddr = addr;
+
+	for (int a = 8; a < 119; a++) {
+		addr = a;
+		ret = getVendorId(vendor, len);
+
+		if (ret < 0)
+			continue;
+
+		ret = strncmp("mndsnsrs", vendor, len);
+
+		if (!ret)
+			break;
+	}
+
+	if (ret != 0)
+		addr = oldaddr;
+
+	return addr;
+}
+
 int MsI2cSensor::writeCmd(char cmd)
 {
 	return I2C::write(MS_I2C_CMD, &cmd, 1);

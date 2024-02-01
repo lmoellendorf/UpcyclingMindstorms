@@ -62,6 +62,7 @@ class MsI2cSensor: public I2C
 		 * @return      0 on success, -1 else
 		 */
 		int changeAddress(char addr);
+		int probeAddress(void);
 
 		/**
 		 * Write I2C command to the sensor
