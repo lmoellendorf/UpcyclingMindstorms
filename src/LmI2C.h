@@ -23,6 +23,7 @@ class I2C
 		int read(int reg, char *val, size_t len);
 		int readStr(int reg, char *val, size_t len);
 		int readByte(int reg);
+		int readWord(int reg);
 		int write(int reg, char *val, size_t len);
 		int getVersion(char *version, size_t len);
 		int getVendorId(char *vendor, size_t len);
