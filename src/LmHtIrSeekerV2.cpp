@@ -72,6 +72,8 @@ int HtIrSeekerV2::getDirection(int mode)
 	case AC:
 		return i2c.readByte(HISV2_REG_AC_DIR);
 	}
+
+	return -1;
 }
 
 int HtIrSeekerV2::getDirection(bool block)
@@ -137,6 +139,8 @@ int HtIrSeekerV2::getSensorValue(unsigned int id, int mode)
 	case AC:
 		return i2c.readByte(HISV2_REG_AC_VAL + id);
 	}
+
+	return -1;
 }
 
 int HtIrSeekerV2::getSensorValues(int values[], size_t n_values)
