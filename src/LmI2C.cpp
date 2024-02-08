@@ -81,35 +81,42 @@ int I2C::readStr(int reg, char *val, size_t len)
 	return read(reg, val, len - 1);
 }
 
-int I2C::readByte(int reg)
+int I2C::readByte(uint8_t *val, int reg)
 {
-	char val[1];
-	size_t len = sizeof(val) / sizeof(val[0]);
-	int ret;
-
-	ret = read(reg, val, len);
-
-	if (ret < 0)
-		return ret;
-
-	return val[0];
+	return read(reg, val, 1);
 }
 
-int I2C::readWord(int reg)
+int I2C::getByte(int reg)
 {
-	uint16_t word = 0;
+	uint8_t val;
 	int ret;
 
+	ret = I2C::readByte(&val, reg);
+
+	if (ret < 0)
+		return -1;
+
+	return val;
+}
+
+int I2C::readWord(uint16_t *word, int reg)
+{
+	uint8_t val;
+	int ret;
+
+	if(!word)
+		return -1;
+
 	for (int b = 0; b < 2; b++) {
-		ret = readByte(reg + b);
+		ret = readByte(&val, reg + b);
 
 		if (ret < 0)
 			return ret;
 
-		word |= ((uint16_t)ret << (8 * b));
+		*word |= ((uint16_t)val << (8 * b));
 	}
 
-	return word;
+	return 0;
 }
 
 int I2C::write(int reg, char *val, size_t len)

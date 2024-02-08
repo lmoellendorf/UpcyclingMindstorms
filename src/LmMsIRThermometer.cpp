@@ -23,22 +23,35 @@ MsIRThermometer::MsIRThermometer(void)
 	addr = 0x2A / 2;
 }
 
+float MsIRThermometer::getTemperature(int reg)
+{
+	uint16_t word;
+	int ret;
+
+	ret = I2C::readWord(&word, reg);
+
+	if(ret < 0)
+		return -1;
+
+	return (float)word / 100.;
+}
+
 float MsIRThermometer::getAmbientTemperatureC(void)
 {
-	return (float)I2C::readWord(MS_IRT_AMB_TEMP_C) / 100.;
+	return getTemperature(MS_IRT_AMB_TEMP_C);
 }
 
 float MsIRThermometer::getTargetTemperatureC(void)
 {
-	return (float)I2C::readWord(MS_IRT_TGT_TEMP_C) / 100.;
+	return getTemperature(MS_IRT_TGT_TEMP_C);
 }
 
 float MsIRThermometer::getAmbientTemperatureF(void)
 {
-	return (float)I2C::readWord(MS_IRT_AMB_TEMP_F) / 100.;
+	return getTemperature(MS_IRT_AMB_TEMP_F);
 }
 
 float MsIRThermometer::getTargetTemperatureF(void)
 {
-	return (float)I2C::readWord(MS_IRT_TGT_TEMP_F) / 100.;
+	return getTemperature(MS_IRT_TGT_TEMP_F);
 }

@@ -83,22 +83,22 @@ int MsLineLeaderV2::getVoltage(uint16_t *readings, size_t len)
 
 int MsLineLeaderV2::getAverage(void)
 {
-	return I2C::readByte(MLLV2_AVG);
+	return I2C::getByte(MLLV2_AVG);
 }
 
 int MsLineLeaderV2::getSteering(void)
 {
-	return I2C::readByte(MLLV2_STEER);
+	return I2C::getByte(MLLV2_STEER);
 }
 
 int MsLineLeaderV2::getResult(void)
 {
-	return I2C::readByte(MLLV2_RESULT);
+	return I2C::getByte(MLLV2_RESULT);
 }
 
 int MsLineLeaderV2::getSetpoint(void)
 {
-	return I2C::readByte(MLLV2_SETPT);
+	return I2C::getByte(MLLV2_SETPT);
 }
 
 int MsLineLeaderV2::setSetpoint(char setpoint)
@@ -108,7 +108,7 @@ int MsLineLeaderV2::setSetpoint(char setpoint)
 
 int MsLineLeaderV2::getKp(void)
 {
-	return I2C::readByte(MLLV2_KP);
+	return I2C::getByte(MLLV2_KP);
 }
 
 int MsLineLeaderV2::setKp(char k_p)
@@ -118,7 +118,7 @@ int MsLineLeaderV2::setKp(char k_p)
 
 int MsLineLeaderV2::getKi(void)
 {
-	return I2C::readByte(MLLV2_KI);
+	return I2C::getByte(MLLV2_KI);
 }
 
 int MsLineLeaderV2::setKi(char k_i)
@@ -128,7 +128,7 @@ int MsLineLeaderV2::setKi(char k_i)
 
 int MsLineLeaderV2::getKd(void)
 {
-	return I2C::readByte(MLLV2_KD);
+	return I2C::getByte(MLLV2_KD);
 }
 
 int MsLineLeaderV2::setKd(char k_d)
@@ -138,7 +138,7 @@ int MsLineLeaderV2::setKd(char k_d)
 
 int MsLineLeaderV2::getKpDiv(void)
 {
-	return I2C::readByte(MLLV2_KP_DIV);
+	return I2C::getByte(MLLV2_KP_DIV);
 }
 
 int MsLineLeaderV2::setKpDiv(char k_p_div)
@@ -148,7 +148,7 @@ int MsLineLeaderV2::setKpDiv(char k_p_div)
 
 int MsLineLeaderV2::getKiDiv(void)
 {
-	return I2C::readByte(MLLV2_KI_DIV);
+	return I2C::getByte(MLLV2_KI_DIV);
 }
 
 int MsLineLeaderV2::setKiDiv(char k_i_div)
@@ -158,7 +158,7 @@ int MsLineLeaderV2::setKiDiv(char k_i_div)
 
 int MsLineLeaderV2::getKdDiv(void)
 {
-	return I2C::readByte(MLLV2_KD_DIV);
+	return I2C::getByte(MLLV2_KD_DIV);
 }
 
 int MsLineLeaderV2::setKdDiv(char k_d_div)

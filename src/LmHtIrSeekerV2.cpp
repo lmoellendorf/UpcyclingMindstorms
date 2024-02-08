@@ -67,10 +67,10 @@ int HtIrSeekerV2::getDirection(int mode)
 {
 	switch (switchMode(mode)) {
 	case DC:
-		return i2c.readByte(HISV2_REG_DC_DIR);
+		return i2c.getByte(HISV2_REG_DC_DIR);
 
 	case AC:
-		return i2c.readByte(HISV2_REG_AC_DIR);
+		return i2c.getByte(HISV2_REG_AC_DIR);
 	}
 
 	return -1;
@@ -134,10 +134,10 @@ int HtIrSeekerV2::getSensorValue(unsigned int id, int mode)
 
 	switch (switchMode(mode)) {
 	case DC:
-		return i2c.readByte(HISV2_REG_DC_VAL + id);
+		return i2c.getByte(HISV2_REG_DC_VAL + id);
 
 	case AC:
-		return i2c.readByte(HISV2_REG_AC_VAL + id);
+		return i2c.getByte(HISV2_REG_AC_VAL + id);
 	}
 
 	return -1;
@@ -161,7 +161,7 @@ int HtIrSeekerV2::getSensorValues(int values[], size_t n_values, int mode)
 
 int HtIrSeekerV2::getAverage(void)
 {
-	return i2c.readByte(HISV2_REG_DC_AVG);
+	return i2c.getByte(HISV2_REG_DC_AVG);
 }
 
 int HtIrSeekerV2::switchMode(int mode)

@@ -13,6 +13,7 @@
 //! @endcond
 
 #include <stddef.h>
+#include <stdint.h>
 
 class I2C
 {
@@ -22,8 +23,9 @@ class I2C
 		I2C(void);
 		int read(int reg, char *val, size_t len);
 		int readStr(int reg, char *val, size_t len);
-		int readByte(int reg);
-		int readWord(int reg);
+		int readByte(uint8_t *val, int reg);
+		int getByte(int reg);
+		int readWord(uint16_t *word, int reg);
 		int write(int reg, char *val, size_t len);
 		int getVersion(char *version, size_t len);
 		int getVendorId(char *vendor, size_t len);

@@ -71,30 +71,51 @@ void loop() {
 
     case a:
       temp = irt.getAmbientTemperatureC();
-      Serial.print("Ambient temperature: ");
-      Serial.print(temp);
-      Serial.println("C");
+
+      if (temp < 0) {
+        Serial.print("Error: ");
+        Serial.println((int)temp);
+      } else {
+        Serial.print("Ambient temperature: ");
+        Serial.print(temp);
+        Serial.println("C");
+      }
       break;
 
     case t:
       temp = irt.getTargetTemperatureC();
-      Serial.print("Target temperature: ");
-      Serial.print(temp);
-      Serial.println("C");
+      if (temp < 0) {
+        Serial.print("Error: ");
+        Serial.println((int)temp);
+      } else {
+        Serial.print("Target temperature: ");
+        Serial.print(temp);
+        Serial.println("C");
+      }
       break;
 
     case A:
       temp = irt.getAmbientTemperatureF();
-      Serial.print("Ambient temperature: ");
-      Serial.print(temp);
-      Serial.println("F");
+      if (temp < 0) {
+        Serial.print("Error: ");
+        Serial.println((int)temp);
+      } else {
+        Serial.print("Ambient temperature: ");
+        Serial.print(temp);
+        Serial.println("F");
+      }
       break;
 
     case T:
       temp = irt.getTargetTemperatureF();
-      Serial.print("Target temperature: ");
-      Serial.print(temp);
-      Serial.println("F");
+      if (temp < 0) {
+        Serial.print("Error: ");
+        Serial.println((int)temp);
+      } else {
+        Serial.print("Target temperature: ");
+        Serial.print(temp);
+        Serial.println("F");
+      }
       break;
 
     case p:

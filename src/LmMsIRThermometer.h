@@ -30,6 +30,9 @@ class MsIRThermometer: public MsI2cSensor
 		float getTargetTemperatureC(void);
 		float getAmbientTemperatureF(void);
 		float getTargetTemperatureF(void);
+
+	private:
+		float getTemperature(int reg);
 };
 
 //! @cond SuppressGuard
